@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SupabaseKey</key>
+	<string>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhkeXNvZHFybG5ydmtweHBldmt4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAxMTYwOTQsImV4cCI6MjA1NTY5MjA5NH0.c2Wod2PdWwwlk8FFoMMffYf-7ZRWpp4PlgJdC1MSPo4</string>
+	<key>SupabaseURL</key>
+	<string>https://hdysodqrlnrvkpxpevkx.supabase.co</string>
+	<key>NaverMapClientID</key>
+	<string>o92hy3r2fx</string>
+</dict>
+</plist>

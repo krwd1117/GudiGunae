@@ -20,7 +20,8 @@ let project = Project(
             sources: ["GuroGunae/App/Sources/**"],
             resources: ["GuroGunae/App/Resources/**"],
             dependencies: [
-                .external(name: "Supabase")
+                .external(name: "Supabase"),
+                .external(name: "NMapsMap")
             ]
         ),
         .target(
