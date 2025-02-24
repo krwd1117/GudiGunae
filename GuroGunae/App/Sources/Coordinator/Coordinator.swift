@@ -9,7 +9,7 @@ import SwiftUI
 
 enum Route: Hashable {
     case home
-    case detail(id: Int)
+    case restaurantDetail(id: Int)
     case setting
 }
 
@@ -41,8 +41,8 @@ class Coordinator: ObservableObject {
         case .home:
             HomeView(viewModel: HomeViewModel())
                 .environmentObject(self)
-        case .detail(let id):
-            DetailView(viewModel: DetailViewModel(id: id))
+        case .restaurantDetail(let id):
+            RestaurantDetailView(viewModel: RestaurantDetailViewModel(id: id))
                 .environmentObject(self)
         case .setting:
             EmptyView()

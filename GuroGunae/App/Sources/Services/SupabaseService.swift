@@ -8,7 +8,7 @@
 import Foundation
 import Supabase
 
-class SupabaseService {
+class SupabaseService: ObservableObject {
     static let shared = SupabaseService()
     
     private let client: SupabaseClient

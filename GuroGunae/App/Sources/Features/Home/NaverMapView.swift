@@ -16,22 +16,27 @@ struct NaverMapView: UIViewRepresentable {
     func makeUIView(context: Context) -> NMFNaverMapView {
         let mapView: NMFNaverMapView = NMFNaverMapView()
         mapView.mapView.mapType = .basic
+        mapView.mapView.touchDelegate = context.coordinator
+        mapView.mapView.positionMode = .normal
+        
+        mapView.showLocationButton = true
+        mapView.showCompass = true
+        
+        if let userLoc = LocationService.shared.currentLocation {
+            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: userLoc.coordinate.latitude, lng: userLoc.coordinate.longitude))
+            mapView.mapView.moveCamera(cameraUpdate)
+        }
+        
         return mapView
     }
     
     func updateUIView(_ uiView: NMFNaverMapView, context: Context) {
-        // 기존 마커 제거 (중복 추가 방지)
-//        uiView.mapView.overlays.forEach { overlay in
-//            if let marker = overlay as? NMFMarker {
-//                marker.mapView = nil
-//            }
-//        }
-        
         // restaurants의 개수만큼 마커를 생성하여 지도에 추가
         for restaurant in viewModel.restaurants {
             let marker = NMFMarker()
             marker.position = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
             marker.captionText = restaurant.name
+            marker.userInfo = ["restaurant": restaurant]
             marker.mapView = uiView.mapView
         }
     }
@@ -40,7 +45,6 @@ struct NaverMapView: UIViewRepresentable {
         NaverMapViewCoordinator(self)
     }
     
-    
     class NaverMapViewCoordinator: NSObject, NMFMapViewTouchDelegate {
         var parent: NaverMapView
         
@@ -48,17 +52,11 @@ struct NaverMapView: UIViewRepresentable {
             self.parent = parent
         }
         
-        func mapView(_ mapView: NMFMapView, didTap symbol: NMFSymbol) -> Bool {
-            parent.coordinator.push(.detail(id: 0))
+        private func mapView(_ mapView: NMFMapView, didTap marker: NMFMarker) -> Bool {
+            if let restaurant = marker.userInfo["restaurant"] as? Restaurant {
+                parent.coordinator.push(.restaurantDetail(id: restaurant.id))
+            }
             return true
         }
-    }
-}
-
-class NaverMapViewModel: ObservableObject {
-    @Published var restaurants: [Restaurant]
-    
-    init(restaurants: [Restaurant]) {
-        self.restaurants = restaurants
     }
 }

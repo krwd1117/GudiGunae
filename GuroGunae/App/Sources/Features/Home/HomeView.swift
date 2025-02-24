@@ -14,6 +14,7 @@ struct HomeView: View {
     
     var body: some View {
         NaverMapView(viewModel: mapViewModel)
+            .ignoresSafeArea()
             .task {
                 await viewModel.fetchRestaurants()
             }

@@ -4,7 +4,7 @@ let project = Project(
     name: "GuroGunae",
     targets: [
         .target(
-            name: "App",
+            name: "GuroGunae",
             destinations: [.iPhone],
             product: .app,
             bundleId: "com.krwd.GuroGunae.app",
@@ -15,6 +15,8 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "NSLocationWhenInUseUsageDescription": "권한 요청",
+                    "NSLocationAlwaysUsageDescription": "권한 요청"
                 ]
             ),
             sources: ["GuroGunae/App/Sources/**"],
@@ -32,7 +34,7 @@ let project = Project(
             infoPlist: .default,
             sources: ["GuroGunae/Tests/**"],
             resources: [],
-            dependencies: [.target(name: "App")]
+            dependencies: [.target(name: "GuroGunae")]
         ),
     ]
 )

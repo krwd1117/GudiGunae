@@ -1,7 +1,8 @@
 import SwiftUI
 
 public struct RootView: View {
-    @StateObject var coordinator = Coordinator()
+    @StateObject private var supabaseService: SupabaseService = SupabaseService()
+    @StateObject private var coordinator: Coordinator = Coordinator()
     
     public var body: some View {
         if coordinator.isSplashFinished {
@@ -11,6 +12,7 @@ public struct RootView: View {
                         coordinator.view(route)
                     }
             }
+            .environmentObject(supabaseService)
         } else {
             SplashView(viewModel: SplashViewModel(coordinator: coordinator))
         }

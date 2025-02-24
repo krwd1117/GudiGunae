@@ -10,8 +10,6 @@ import Foundation
 class HomeViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
     
-    init() {}
-    
     func fetchRestaurants() async {
         do {
             let fetchedRestaurants = try await SupabaseService.shared.fetchRestaurants()
