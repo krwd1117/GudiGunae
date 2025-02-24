@@ -12,7 +12,19 @@ struct HomeView: View {
     @StateObject var viewModel: HomeViewModel
     
     var body: some View {
-        Text("Home")
+        
+        List {
+            ForEach(viewModel.restaurants, id: \.id) { restaurant in
+                Button(action: {
+                    coordinator.push(.detail(id: restaurant.id))
+                }, label: {
+                    Text(restaurant.name)
+                })
+            }
+        }
+        .task {
+            await viewModel.fetchRestaurants()
+        }
         
         Button(action: {
             coordinator.push(.detail(id: 0))
@@ -21,5 +33,3 @@ struct HomeView: View {
         })
     }
 }
-
-class HomeViewModel: ObservableObject {}

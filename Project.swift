@@ -19,7 +19,9 @@ let project = Project(
             ),
             sources: ["GuroGunae/App/Sources/**"],
             resources: ["GuroGunae/App/Resources/**"],
-            dependencies: []
+            dependencies: [
+                .external(name: "Supabase")
+            ]
         ),
         .target(
             name: "GuroGunaeTests",

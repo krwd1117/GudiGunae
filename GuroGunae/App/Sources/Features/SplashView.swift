@@ -25,7 +25,6 @@ class SplashViewModel: ObservableObject {
         self.coordinator = coordinator
     }
     
-    /// 2초 후에 Splash를 종료하고 Home으로 전환합니다.
     func startSplashTimer() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             self.coordinator.finishedSplash()
