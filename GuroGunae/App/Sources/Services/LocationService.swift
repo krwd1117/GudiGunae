@@ -33,7 +33,7 @@ class LocationService: NSObject, ObservableObject {
     }
     
     func startUpdatingLocation() {
-        print("위치 업데이트 시작")
+        Logger.i("위치 업데이트 시작")
         locationManager.startUpdatingLocation()
     }
     
@@ -45,7 +45,7 @@ class LocationService: NSObject, ObservableObject {
 extension LocationService: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         authorizationStatus = manager.authorizationStatus
-        print("위치 권한 상태 변경: \(manager.authorizationStatus.rawValue)")
+        Logger.d("위치 권한 상태 변경: \(manager.authorizationStatus.rawValue)")
         
         // 권한이 승인되면 위치 업데이트 시작
         if manager.authorizationStatus == .authorizedWhenInUse ||
@@ -56,11 +56,11 @@ extension LocationService: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        print("위치 업데이트: \(location.coordinate.latitude), \(location.coordinate.longitude)")
+        Logger.d("위치 업데이트: \(location.coordinate.latitude), \(location.coordinate.longitude)")
         currentLocation = location
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("위치 업데이트 실패: \(error.localizedDescription)")
+        Logger.e("위치 업데이트 실패: \(error.localizedDescription)")
     }
 }
