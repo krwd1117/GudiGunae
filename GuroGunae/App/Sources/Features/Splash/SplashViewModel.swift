@@ -10,25 +10,42 @@ import Combine
 
 class SplashViewModel: ObservableObject {
     private let coordinator: Coordinator
+    
     private var cancellables = Set<AnyCancellable>()
     
     init(coordinator: Coordinator) {
         self.coordinator = coordinator
         
-        LocationService.shared.requestLocationPermission()
+        LocationService.shared.requestAuthorization()
         
         binding()
     }
-    
+
     private func binding() {
-        // LocationService의 권한 상태 변화를 구독
         LocationService.shared.$authorizationStatus
             .sink { [weak self] status in
-                // 권한이 승인된 경우 HomeView로 이동
-                if status == .authorizedAlways || status == .authorizedWhenInUse {
-                    self?.coordinator.finishedSplash()
+                if let status = status {
+                    switch status {
+                    case .authorizedWhenInUse, .authorizedAlways:
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self?.coordinator.finishedSplash()
+                        }
+                    case .denied, .restricted:
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            self?.coordinator.finishedSplash()
+                        }
+                    case .notDetermined:
+                        // 초기 상태
+                        break
+                    @unknown default:
+                        break
+                    }
                 }
             }
             .store(in: &cancellables)
+    }
+    
+    func requestLocationPermission() {
+        LocationService.shared.requestAuthorization()
     }
 }

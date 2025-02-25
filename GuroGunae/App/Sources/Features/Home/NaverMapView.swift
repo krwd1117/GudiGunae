@@ -23,7 +23,15 @@ struct NaverMapView: UIViewRepresentable {
         mapView.showCompass = true
         
         if let userLoc = LocationService.shared.currentLocation {
-            let cameraUpdate = NMFCameraUpdate(scrollTo: NMGLatLng(lat: userLoc.coordinate.latitude, lng: userLoc.coordinate.longitude))
+            let location = NMGLatLng(lat: userLoc.coordinate.latitude, lng: userLoc.coordinate.longitude)
+            let cameraUpdate = NMFCameraUpdate(
+                scrollTo: location,
+                zoomTo: 15
+            )
+            mapView.mapView.moveCamera(cameraUpdate)
+        } else {
+            let defaultLocation = NMGLatLng(lat: 37.4833598, lng: 126.8944673)
+            let cameraUpdate = NMFCameraUpdate(scrollTo: defaultLocation, zoomTo: 15)
             mapView.mapView.moveCamera(cameraUpdate)
         }
         
