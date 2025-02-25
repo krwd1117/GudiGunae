@@ -39,18 +39,19 @@ struct NaverMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: NMFNaverMapView, context: Context) {
-        // restaurants의 개수만큼 마커를 생성하여 지도에 추가
         for restaurant in viewModel.restaurants {
-            let markerPosition = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
-            
-            let marker = NMFMarker(position: markerPosition)
+            let marker = NMFMarker()
+            marker.position = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
             marker.captionText = restaurant.name
             marker.userInfo = ["restaurant": restaurant]
             
-            marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
+            marker.touchHandler = { [weak viewModel] (overlay: NMFOverlay) -> Bool in
                 if let restaurant = marker.userInfo["restaurant"] as? Restaurant {
                     withAnimation {
-                        viewModel.selectRestaurant(restaurant)
+//                        let location = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
+//                        let cameraUpdate = NMFCameraUpdate(scrollTo: location, zoomTo: 15)
+//                        uiView.mapView.moveCamera(cameraUpdate)
+                        viewModel?.selectRestaurant(restaurant)
                     }
                 }
                 return true

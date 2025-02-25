@@ -8,9 +8,10 @@
 import Foundation
 
 struct Restaurant: Identifiable, Decodable {
-    let id: Int
+    let id: UUID
     let name: String
     let address: String
     let latitude: Double
     let longitude: Double
+    let image_url: String?
 }

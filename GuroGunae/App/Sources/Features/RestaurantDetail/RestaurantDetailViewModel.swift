@@ -9,14 +9,10 @@ import Foundation
 
 class RestaurantDetailViewModel: ObservableObject {
     
-    private var id: Int
+    private var id: UUID
     
-    init(id: Int) {
+    init(id: UUID) {
         self.id = id
     }
-    
-//    private func fetchRestaurantDetail() async throws -> RestaurantDetail {
-//        return try await .init(id: id)
-//    }
 }
 

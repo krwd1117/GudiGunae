@@ -9,7 +9,7 @@ import SwiftUI
 
 enum Route: Hashable {
     case home
-    case restaurantDetail(id: Int)
+    case restaurantDetail(id: UUID)
     case setting
 }
 
