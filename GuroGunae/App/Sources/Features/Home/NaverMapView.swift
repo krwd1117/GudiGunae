@@ -41,10 +41,21 @@ struct NaverMapView: UIViewRepresentable {
     func updateUIView(_ uiView: NMFNaverMapView, context: Context) {
         // restaurants의 개수만큼 마커를 생성하여 지도에 추가
         for restaurant in viewModel.restaurants {
-            let marker = NMFMarker()
-            marker.position = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
+            let markerPosition = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
+            
+            let marker = NMFMarker(position: markerPosition)
             marker.captionText = restaurant.name
             marker.userInfo = ["restaurant": restaurant]
+            
+            marker.touchHandler = { (overlay: NMFOverlay) -> Bool in
+                if let restaurant = marker.userInfo["restaurant"] as? Restaurant {
+                    withAnimation {
+                        viewModel.selectRestaurant(restaurant)
+                    }
+                }
+                return true
+            }
+            
             marker.mapView = uiView.mapView
         }
     }
@@ -60,11 +71,10 @@ struct NaverMapView: UIViewRepresentable {
             self.parent = parent
         }
         
-        private func mapView(_ mapView: NMFMapView, didTap marker: NMFMarker) -> Bool {
-            if let restaurant = marker.userInfo["restaurant"] as? Restaurant {
-                parent.coordinator.push(.restaurantDetail(id: restaurant.id))
+        func mapView(_ mapView: NMFMapView, didTapMap latlng: NMGLatLng, point: CGPoint) {
+            withAnimation {
+                parent.viewModel.clearSelection()
             }
-            return true
         }
     }
 }

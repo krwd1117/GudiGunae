@@ -13,15 +13,20 @@ struct HomeView: View {
     @StateObject var mapViewModel: NaverMapViewModel = NaverMapViewModel(restaurants: [])
     
     var body: some View {
-        NaverMapView(viewModel: mapViewModel)
-            .ignoresSafeArea()
-            .task {
-                await viewModel.fetchRestaurants()
+        ZStack {
+            NaverMapView(viewModel: mapViewModel)
+                .ignoresSafeArea()
+                .task {
+                    await viewModel.fetchRestaurants()
+                }
+                .onReceive(viewModel.$restaurants) { newRestaurants in
+                    mapViewModel.restaurants = newRestaurants
+                }
+            
+            if let selectedRestaurant = mapViewModel.selectedRestaurant {
+                let viewModel = RestaurantCardViewModel(selectedRestaurant: selectedRestaurant)
+                RestaurantCardView(viewModel: viewModel)
             }
-            .onReceive(viewModel.$restaurants) { newRestaurants in
-                mapViewModel.restaurants = newRestaurants
-            }
+        }
     }
 }
-
-

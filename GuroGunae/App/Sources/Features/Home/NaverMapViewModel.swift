@@ -10,8 +10,17 @@ import NMapsMap
 
 class NaverMapViewModel: ObservableObject {
     @Published var restaurants: [Restaurant]
+    @Published var selectedRestaurant: Restaurant?
     
     init(restaurants: [Restaurant]) {
         self.restaurants = restaurants
+    }
+    
+    func selectRestaurant(_ restaurant: Restaurant) {
+        selectedRestaurant = restaurant
+    }
+    
+    func clearSelection() {
+        selectedRestaurant = nil
     }
 }
