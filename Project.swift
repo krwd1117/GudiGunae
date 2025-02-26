@@ -1,13 +1,13 @@
 import ProjectDescription
 
 let project = Project(
-    name: "GuroGunae",
+    name: "GudiGunae",
     targets: [
         .target(
-            name: "GuroGunae",
+            name: "GudiGunae",
             destinations: [.iPhone],
             product: .app,
-            bundleId: "com.krwd.GuroGunae.app",
+            bundleId: "com.krwd.GudiGunae.app",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .extendingDefault(
                 with: [
@@ -19,8 +19,8 @@ let project = Project(
                     "NSLocationAlwaysUsageDescription": "권한 요청"
                 ]
             ),
-            sources: ["GuroGunae/App/Sources/**"],
-            resources: ["GuroGunae/App/Resources/**"],
+            sources: ["GudiGunae/App/Sources/**"],
+            resources: ["GudiGunae/App/Resources/**"],
             dependencies: [
                 .external(name: "Supabase"),
                 .external(name: "NMapsMap"),
@@ -28,14 +28,14 @@ let project = Project(
             ]
         ),
         .target(
-            name: "GuroGunaeTests",
+            name: "GudiGunaeTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "com.krwd.GuroGunae.Tests",
+            bundleId: "com.krwd.GudiGunae.Tests",
             infoPlist: .default,
-            sources: ["GuroGunae/Tests/**"],
+            sources: ["GudiGunae/Tests/**"],
             resources: [],
-            dependencies: [.target(name: "GuroGunae")]
+            dependencies: [.target(name: "GudiGunae")]
         ),
     ]
 )

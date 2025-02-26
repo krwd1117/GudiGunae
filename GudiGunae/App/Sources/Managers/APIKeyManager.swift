@@ -6,7 +6,7 @@ public class APIKeyManager {
     
     private func loadAPIKeys() -> [String: Any] {
         // Bundle에서 APIKeys.plist 파일의 URL을 찾음
-        guard let bundle = Bundle(identifier: "com.krwd.GuroGunae.app"),
+        guard let bundle = Bundle(identifier: "com.krwd.GudiGunae.app"),
               let url = bundle.url(forResource: "APIKeys", withExtension: "plist"),
               let data = try? Data(contentsOf: url),
               let plist = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] else {
