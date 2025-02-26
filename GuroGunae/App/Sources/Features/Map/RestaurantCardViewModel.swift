@@ -23,7 +23,7 @@ class RestaurantCardViewModel: ObservableObject {
     }
     
     var imageURL: URL? {
-        if let url = selectedRestaurant?.image_url {
+        if let url = selectedRestaurant?.imageURL {
             return URL(string: url)
         } else {
             return nil

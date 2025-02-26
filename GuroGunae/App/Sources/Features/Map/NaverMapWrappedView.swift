@@ -9,9 +9,9 @@ import Foundation
 import SwiftUI
 import NMapsMap
 
-struct NaverMapView: UIViewRepresentable {
-    @EnvironmentObject var coordinator: Coordinator
-    @StateObject var viewModel: NaverMapViewModel
+struct NaverMapWrappedView: UIViewRepresentable {
+    @EnvironmentObject var coordinator: MapCoordinator
+    @StateObject var viewModel: NaverMapWrappedViewModel
     
     func makeUIView(context: Context) -> NMFNaverMapView {
         let mapView: NMFNaverMapView = NMFNaverMapView()
@@ -66,9 +66,9 @@ struct NaverMapView: UIViewRepresentable {
     }
     
     class NaverMapViewCoordinator: NSObject, NMFMapViewTouchDelegate {
-        var parent: NaverMapView
+        var parent: NaverMapWrappedView
         
-        init(_ parent: NaverMapView) {
+        init(_ parent: NaverMapWrappedView) {
             self.parent = parent
         }
         

@@ -2,19 +2,21 @@ import SwiftUI
 
 public struct RootView: View {
     @StateObject private var supabaseService: SupabaseService = SupabaseService()
-    @StateObject private var coordinator: Coordinator = Coordinator()
+    @StateObject private var coordinator: RootCoordinator = RootCoordinator()
+    @StateObject private var restaurantStore: RestaurantStore = RestaurantStore()
     
     public var body: some View {
         if coordinator.isSplashFinished {
-            NavigationStack(path: $coordinator.path) {
-                coordinator.view(.home)
-                    .navigationDestination(for: Route.self) { route in
-                        coordinator.view(route)
-                    }
-            }
-            .environmentObject(supabaseService)
+            BottomTabBarView()
+                .environmentObject(supabaseService)
+                .environmentObject(restaurantStore)
         } else {
-            SplashView(viewModel: SplashViewModel(coordinator: coordinator))
+            SplashView(
+                viewModel: SplashViewModel(
+                    coordinator: coordinator,
+                    restaurantStore: restaurantStore
+                )
+            )
         }
     }
 }

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RestaurantDetailView: View {
-    @EnvironmentObject var coordinator: Coordinator
+    @EnvironmentObject var coordinator: MapCoordinator
     @StateObject var viewModel: RestaurantDetailViewModel
     
     var body: some View {

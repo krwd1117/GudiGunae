@@ -1,5 +1,5 @@
 //
-//  HomeView.swift
+//  NaverMapView.swift
 //  App
 //
 //  Created by 김정완 on 2/24/25.
@@ -7,19 +7,17 @@
 
 import SwiftUI
 
-struct HomeView: View {
-    @EnvironmentObject var coordinator: Coordinator
-    @StateObject var viewModel: HomeViewModel
-    @StateObject var mapViewModel: NaverMapViewModel = NaverMapViewModel(restaurants: [])
+struct NaverMapView: View {
+    @EnvironmentObject var coordinator: MapCoordinator
+    @EnvironmentObject var restaurantStore: RestaurantStore
+    
+    @StateObject var viewModel: NaverMapViewModel
+    @StateObject var mapViewModel: NaverMapWrappedViewModel = NaverMapWrappedViewModel(restaurants: [])
     
     var body: some View {
         ZStack {
-            NaverMapView(viewModel: mapViewModel)
-                .ignoresSafeArea()
-                .task {
-                    await viewModel.fetchRestaurants()
-                }
-                .onReceive(viewModel.$restaurants) { newRestaurants in
+            NaverMapWrappedView(viewModel: mapViewModel)
+                .onReceive(restaurantStore.$restaurants) { newRestaurants in
                     mapViewModel.restaurants = newRestaurants
                 }
             

@@ -9,7 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct RestaurantCardView: View {
-    @EnvironmentObject var coordinator: Coordinator
+    @EnvironmentObject var coordinator: MapCoordinator
     @StateObject var viewModel: RestaurantCardViewModel
     @Environment(\.colorScheme) var colorScheme
     
@@ -81,6 +81,16 @@ struct RestaurantCardView: View {
 
 
 #Preview {
-    let viewModel = RestaurantCardViewModel(selectedRestaurant: Restaurant(id: UUID(), name: "윤쉐프코오롱", address: "서울", latitude: 0.0, longitude: 0.0, image_url: "https://k.kakaocdn.net/dn/n0Tiz/btsMvew04eV/MrHLdzGkZdGLbnWvBuodW1/img_xl.jpg"))
+    let viewModel = RestaurantCardViewModel(
+        selectedRestaurant: Restaurant(
+            id: UUID(),
+            name: "윤쉐프코오롱",
+            address: "서울",
+            latitude: 0.0,
+            longitude: 0.0,
+            imageURL: "https://k.kakaocdn.net/dn/n0Tiz/btsMvew04eV/MrHLdzGkZdGLbnWvBuodW1/img_xl.jpg",
+            isOpen: true
+        )
+    )
     RestaurantCardView(viewModel: viewModel)
 }

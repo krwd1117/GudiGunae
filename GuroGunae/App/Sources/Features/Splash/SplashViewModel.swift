@@ -9,14 +9,26 @@ import Foundation
 import Combine
 
 class SplashViewModel: ObservableObject {
-    private let coordinator: Coordinator
+    private let coordinator: RootCoordinator
+    private let restaurantStore: RestaurantStore
     
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: Coordinator) {
+    init(coordinator: RootCoordinator, restaurantStore: RestaurantStore) {
         self.coordinator = coordinator
+        self.restaurantStore = restaurantStore
         
         LocationService.shared.requestAuthorization()
+        
+        // 레스토랑 데이터 가져오기
+        Task {
+            do {
+                try await restaurantStore.fetchRestaurants()
+                Logger.i("레스토랑 데이터 로드 완료")
+            } catch {
+                Logger.e("레스토랑 데이터 로드 실패: \(error)")
+            }
+        }
         
         binding()
     }

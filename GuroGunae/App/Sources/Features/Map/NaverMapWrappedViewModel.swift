@@ -8,7 +8,7 @@
 import Foundation
 import NMapsMap
 
-class NaverMapViewModel: ObservableObject {
+class NaverMapWrappedViewModel: ObservableObject {
     @Published var restaurants: [Restaurant]
     @Published var selectedRestaurant: Restaurant?
     

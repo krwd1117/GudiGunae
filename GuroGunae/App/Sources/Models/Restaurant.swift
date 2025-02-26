@@ -13,5 +13,17 @@ struct Restaurant: Identifiable, Decodable {
     let address: String
     let latitude: Double
     let longitude: Double
-    let image_url: String?
+    let imageURL: String?
+    
+    let isOpen: Bool
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case address
+        case latitude
+        case longitude
+        case imageURL = "image_url"
+        case isOpen = "isOpen"
+    }
 }
