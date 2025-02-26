@@ -29,14 +29,6 @@ struct CollectionCellView: View {
     }
 }
 
-struct Divider: View {
-    var body: some View {
-        Rectangle()
-            .frame(height: 1)
-            .foregroundColor(Color.gray)
-    }
-}
-
 #Preview {
     let viewModel = CollectionCellViewModel(
         restaurant: Restaurant(

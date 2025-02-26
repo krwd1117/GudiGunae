@@ -11,6 +11,11 @@ struct SplashView: View {
     @StateObject var viewModel: SplashViewModel
     
     var body: some View {
-        Text("Splash")
+        VStack {
+            Text("구로디지털단지")
+            Text("구내식당")
+        }
+        .fontWeight(.bold)
+        .font(.system(size: 32))
     }
 }

@@ -10,64 +10,32 @@ import Kingfisher
 
 struct RestaurantCardView: View {
     @EnvironmentObject var coordinator: MapCoordinator
-    @StateObject var viewModel: RestaurantCardViewModel
     @Environment(\.colorScheme) var colorScheme
+    
+    @StateObject var viewModel: RestaurantCardViewModel
     
     var body: some View {
         VStack {
             Spacer()
             
-            VStack(alignment: .leading, spacing: 16) {
-                // 상단 영역: 식당 이름과 주소
-                VStack(alignment: .leading, spacing: 8) {
-                    Text(viewModel.restaurantName)
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Text(viewModel.restaurantAddress)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                }
-                
-                // 중간 영역: 메뉴 정보 (있는 경우)
-                //                if let menuInfo = viewModel.menuInfo, !menuInfo.isEmpty {
-                //                    Text("메뉴")
-                //                        .font(.headline)
-                //                        .padding(.top, 4)
-                //
-                //                    Text(menuInfo)
-                //                        .font(.subheadline)
-                //                        .foregroundColor(.primary)
-                //                }
-                
-                // 하단 영역: 버튼 또는 추가 정보
-                HStack {
-                    Button(action: {
-                        if let restaurantId = viewModel.selectedRestaurant?.id {
-                            coordinator.push(.restaurantDetail(id: restaurantId))
-                        }
-                    }) {
-                        Text("상세 정보")
+            HStack {
+                VStack(alignment: .leading, spacing: 16) {
+                    // 상단 영역: 식당 이름과 주소
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(viewModel.restaurantName)
+                            .font(.title2)
+                            .fontWeight(.bold)
+                        
+                        Text(viewModel.restaurantAddress)
                             .font(.subheadline)
-                            .fontWeight(.medium)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 8)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    }
-                    
-                    Spacer()
-                    
-                    // 이미지가 있는 경우 작은 썸네일로 표시
-                    if let imageURL = viewModel.imageURL {
-                        KFImage(imageURL)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 80, height: 80)
-                            .cornerRadius(8)
+                            .foregroundColor(.secondary)
                     }
                 }
+                
+                KFImage(viewModel.imageURL)
+                    .resizable()
+                    .frame(maxHeight: 200)
+                
             }
             .padding(16)
             .background(colorScheme == .dark ? Color(UIColor.systemGray6) : Color.white)
