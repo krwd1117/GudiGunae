@@ -15,6 +15,7 @@ let project = Project(
                         "UIColorName": "",
                         "UIImageName": "",
                     ],
+                    "CFBundleDisplayName": "구디구내",
                     "NSLocationWhenInUseUsageDescription": "권한 요청",
                     "NSLocationAlwaysUsageDescription": "권한 요청"
                 ]
