@@ -69,5 +69,5 @@ Derived/
 ### Tuist managed dependencies ###
 Tuist/.build
 
-GudiGunae/App/Resources/APIKeys.plist
+
 GudiGunae/App/Resources/GoogleService-Info.plist
