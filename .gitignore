@@ -70,3 +70,4 @@ Derived/
 Tuist/.build
 
 GuroGunae/App/Resources/APIKeys.plist
+GuroGunae/App/Resources/GoogleService-Info.plist
