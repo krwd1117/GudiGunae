@@ -1,6 +1,10 @@
 import SwiftUI
 import NMapsMap
 
+import Core
+import Data
+import Presentation
+
 @main
 struct GuroGunaeApp: App {
     
