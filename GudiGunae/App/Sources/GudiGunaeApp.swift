@@ -5,10 +5,15 @@ import Core
 import Data
 import Presentation
 
+import FirebaseCore
+
 @main
 struct GuroGunaeApp: App {
     
     init() {
+        
+        FirebaseApp.configure()
+        
         // 앱 시작 시 로그 레벨 설정
         #if DEBUG
         Logger.setLogLevel(.info)  // 개발 환경에서는 모든 로그 표시
@@ -20,6 +25,8 @@ struct GuroGunaeApp: App {
         
         let apiKeyManager = APIKeyManager()
         NMFAuthManager.shared().clientId = apiKeyManager.getNaverMapClientID()
+        
+        
     }
     
     var body: some Scene {
