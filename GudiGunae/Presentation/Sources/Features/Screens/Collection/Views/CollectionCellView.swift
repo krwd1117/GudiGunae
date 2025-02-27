@@ -16,6 +16,7 @@ struct CollectionCellView: View {
     var body: some View {
         VStack {
             Text(viewModel.name)
+                .foregroundStyle(Color.black)
                 .fontWeight(.bold)
             
             Divider()

@@ -16,8 +16,8 @@ let project = Project(
                         "UIImageName": "",
                     ],
                     "CFBundleDisplayName": "구디구내",
-                    "NSLocationWhenInUseUsageDescription": "권한 요청",
-                    "NSLocationAlwaysUsageDescription": "권한 요청"
+                    "NSLocationWhenInUseUsageDescription": "앱 사용 중 주변 정보를 제공하기 위해 위치 접근이 필요합니다.",
+                    "NSLocationAlwaysUsageDescription": "정확한 서비스 제공을 위해 앱이 닫혀 있을 때도 위치 정보를 사용합니다."
                 ]
             ),
             sources: ["GudiGunae/App/Sources/**"],

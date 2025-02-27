@@ -14,9 +14,6 @@ import Domain
 
 struct NaverMapView: UIViewRepresentable {
     @EnvironmentObject var coordinator: MapCoordinator
-//    @EnvironmentObject var bottomTabBarViewModel: BottomTabBarViewModel
-//    
-//    @StateObject var viewModel: NaverMapViewModel = NaverMapViewModel()
     @EnvironmentObject var viewModel: MapViewModel
     
     func makeUIView(context: Context) -> NMFNaverMapView {
