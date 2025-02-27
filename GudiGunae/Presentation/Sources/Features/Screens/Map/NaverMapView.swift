@@ -5,12 +5,13 @@
 //  Created by 김정완 on 2/24/25.
 //
 
+import Domain
+import Core
+
 import Foundation
 import SwiftUI
 import NMapsMap
 
-import Data
-import Domain
 
 struct NaverMapView: UIViewRepresentable {
     @EnvironmentObject var coordinator: MapCoordinator

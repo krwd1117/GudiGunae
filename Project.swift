@@ -24,7 +24,6 @@ let project = Project(
             resources: ["GudiGunae/App/Resources/**"],
             dependencies: [
                 .external(name: "NMapsMap"),
-                .external(name: "Kingfisher"),
                 .target(name: "Data"),
                 .target(name: "Presentation"),
                 .target(name: "Domain"),
@@ -68,6 +67,7 @@ let project = Project(
             sources: ["GudiGunae/Presentation/Sources/**"],
             resources: ["GudiGunae/Presentation/Resources/**"],
             dependencies: [
+                .external(name: "Kingfisher"),
                 .target(name: "Domain"),
                 .target(name: "Core"),
             ]

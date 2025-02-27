@@ -8,7 +8,7 @@
 import Foundation
 import Combine
 
-import Data
+import Core
 
 class SplashViewModel: ObservableObject {
     private let coordinator: RootCoordinator
