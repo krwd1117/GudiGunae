@@ -27,6 +27,7 @@ let project = Project(
                 .external(name: "Kingfisher"),
                 .target(name: "Data"),
                 .target(name: "Presentation"),
+                .target(name: "Domain"),
                 .target(name: "Core"),
             ]
         ),

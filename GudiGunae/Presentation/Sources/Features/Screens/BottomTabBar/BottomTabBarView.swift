@@ -6,9 +6,7 @@
 //
 
 import SwiftUI
-import Supabase
 
-import Data
 import Domain
 
 enum BottomTabBar: Hashable {
@@ -21,9 +19,8 @@ struct BottomTabBarView: View {
     @StateObject var mapCoordiantor: MapCoordinator = MapCoordinator()
     @StateObject var bottomTabBarViewModel: BottomTabBarViewModel
     
-    init(supabaseClient: SupabaseClient) {
-        let restaurantRepositoryImpl = RestaurantRepositoryImpl(supabaseClient: supabaseClient)
-        let fetchRestaurantUseCase = FetchRestaurantUseCase(restaurantRepository: restaurantRepositoryImpl)
+    init(fetchRestaurantUseCase: FetchRestaurantUseCase) {
+//        let restaurantRepositoryImpl = RestaurantRepositoryImpl(supabaseClient: supabaseClient)
         _bottomTabBarViewModel = StateObject(wrappedValue: BottomTabBarViewModel(fetchRestaurantUseCase: fetchRestaurantUseCase))
     }
     

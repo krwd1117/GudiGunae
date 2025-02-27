@@ -1,24 +1,18 @@
 import SwiftUI
-import Supabase
-import Data
 import Domain
 
 public struct RootView: View {
     @StateObject private var coordinator: RootCoordinator = RootCoordinator()
     
-    private let supabaseClient: SupabaseClient
+    let fetchRestaurantUseCase: FetchRestaurantUseCase
     
-    public init() {
-        let apiKeyManager = APIKeyManager()
-        supabaseClient = SupabaseClient(
-            supabaseURL: apiKeyManager.getSupabaseURL(),
-            supabaseKey: apiKeyManager.getSupabaseKEY()
-        )
+    public init(fetchRestaurantUseCase: FetchRestaurantUseCase) {
+        self.fetchRestaurantUseCase = fetchRestaurantUseCase
     }
     
     public var body: some View {
         if coordinator.isSplashFinished {
-            BottomTabBarView(supabaseClient: supabaseClient)
+            BottomTabBarView(fetchRestaurantUseCase: fetchRestaurantUseCase)
         } else {
             SplashView(viewModel: SplashViewModel(coordinator: coordinator))
         }
@@ -30,12 +24,5 @@ class RootViewModel: ObservableObject {
     
     func updateRestaurants(restaurants: [Restaurant]) {
         self.restaurants = restaurants
-    }
-}
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        RootView()
     }
 }

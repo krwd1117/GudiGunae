@@ -8,10 +8,11 @@
 import Foundation
 import Supabase
 
-class SupabaseService: ObservableObject {
-    static let shared = SupabaseService()
+public class SupabaseService {
     
-    private let client: SupabaseClient
+    public static let shared = SupabaseService()
+    
+    public let client: SupabaseClient
     
     init() {
         let apiKeyManager = APIKeyManager()
