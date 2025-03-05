@@ -17,10 +17,20 @@ enum BottomTabBar: Hashable {
 
 struct BottomTabBarView: View {
     @StateObject var mapCoordiantor: MapCoordinator = MapCoordinator()
+    @StateObject var settingCoordinator: SettingCoordinator
     @StateObject var bottomTabBarViewModel: BottomTabBarViewModel
     
-    init(fetchRestaurantUseCase: FetchRestaurantUseCase) {
-//        let restaurantRepositoryImpl = RestaurantRepositoryImpl(supabaseClient: supabaseClient)
+    init(
+        fetchRestaurantUseCase: FetchRestaurantUseCase,
+        reportRestaurantUseCase: ReportRestaurantUseCase,
+        inquiryUseCase: InquiryUseCase
+    ) {
+        _settingCoordinator = StateObject(
+            wrappedValue: SettingCoordinator(
+                reportRestaurantUseCase: reportRestaurantUseCase,
+                inquiryUseCase: inquiryUseCase
+            )
+        )
         _bottomTabBarViewModel = StateObject(wrappedValue: BottomTabBarViewModel(fetchRestaurantUseCase: fetchRestaurantUseCase))
     }
     
@@ -40,23 +50,7 @@ struct BottomTabBarView: View {
             }
             .tag(BottomTabBar.map)
             
-            
-//            NavigationStack(path: $mapCoordiantor.path) {
-//                NaverMapView(restaurants: bottomTabBarViewModel.restaunrats)
-//                    .navigationDestination(for: MapRoute.self) { route in
-//                        switch route {
-//                        case .map:
-//                            NaverMapView(restaurants: bottomTabBarViewModel.restaunrats)
-//                        case .restaurantDetail(let id):
-//                            EmptyView()
-//                        }
-//                    }
-//            }
-//            .tabItem {
-//                Image(systemName: "map")
-//                Text("지도")
-//            }
-//            .tag(BottomTabBar.map)
+            // 식당 CollectionView
             CollectionView()
                 .environmentObject(bottomTabBarViewModel)
                 .tabItem {
@@ -67,6 +61,7 @@ struct BottomTabBarView: View {
             
             // 설정
             SettingView()
+                .environmentObject(settingCoordinator)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("설정")

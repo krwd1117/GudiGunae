@@ -19,7 +19,7 @@ class MapCoordinator: CoordinatorProtocol {
     @Published var path = NavigationPath()
     
     @ViewBuilder
-    func view(_ route: MapRoute) -> some View {
+    func view(_ route: RouteType) -> some View {
         switch route {
         case .map:
             MapView()
@@ -27,4 +27,3 @@ class MapCoordinator: CoordinatorProtocol {
         }
     }
 }
-

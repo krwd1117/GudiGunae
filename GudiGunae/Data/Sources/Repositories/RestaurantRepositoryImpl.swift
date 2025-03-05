@@ -1,5 +1,5 @@
 //
-//  RestaurantRepositryImpl.swift
+//  RestaurantRepositoryImpl.swift
 //  GudiGunae
 //
 //  Created by 김정완 on 2/27/25.
@@ -8,8 +8,6 @@
 import Supabase
 import Domain
 import Core
-
-// Impl 정의
 
 public class RestaurantRepositoryImpl: RestaurantRepository {
     

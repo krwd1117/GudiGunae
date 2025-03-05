@@ -5,12 +5,11 @@ import Core
 import Data
 import Presentation
 
-
 @main
 struct GuroGunaeApp: App {
+    @StateObject var diContainer: DIContainer = DIContainer()
     
     init() {
-        
         // 앱 시작 시 로그 레벨 설정
         #if DEBUG
         Logger.setLogLevel(.info)  // 개발 환경에서는 모든 로그 표시
@@ -22,13 +21,15 @@ struct GuroGunaeApp: App {
         
         let apiKeyManager = APIKeyManager()
         NMFAuthManager.shared().clientId = apiKeyManager.getNaverMapClientID()
-        
-        
     }
     
     var body: some Scene {
         WindowGroup {
-            RootView(fetchRestaurantUseCase: DIContainer.shared.getFetchRestaurantUseCase())
+            RootView(
+                fetchRestaurantUseCase: diContainer.getFetchRestaurantUseCase(),
+                reportRestaurantUseCase: diContainer.getReportRestaurantUseCase(),
+                inquiryUseCase: diContainer.getInquiryUseCase()
+            )
         }
     }
 }

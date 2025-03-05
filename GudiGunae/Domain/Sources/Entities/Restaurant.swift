@@ -17,7 +17,15 @@ public struct Restaurant: Identifiable, Decodable, Equatable, Hashable {
     
     public let isOpen: Bool
     
-    public init(id: UUID, name: String, address: String, latitude: Double, longitude: Double, imageURL: String?, isOpen: Bool) {
+    public init(
+        id: UUID,
+        name: String,
+        address: String,
+        latitude: Double,
+        longitude: Double,
+        imageURL: String?,
+        isOpen: Bool
+    ) {
         self.id = id
         self.name = name
         self.address = address
@@ -34,7 +42,7 @@ public struct Restaurant: Identifiable, Decodable, Equatable, Hashable {
         case latitude
         case longitude
         case imageURL = "image_url"
-        case isOpen = "isOpen"
+        case isOpen = "is_open"
     }
     
     public static func == (lhs: Restaurant, rhs: Restaurant) -> Bool {

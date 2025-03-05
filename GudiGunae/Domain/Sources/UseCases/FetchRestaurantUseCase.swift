@@ -13,15 +13,13 @@ public protocol RestaurantRepository {
 }
 
 public class FetchRestaurantUseCase {
-    
     private let repositry: RestaurantRepository
     
     public init(restaurantRepository: RestaurantRepository) {
         self.repositry = restaurantRepository
     }
     
-    public func excute() async throws -> [Restaurant] {
+    public func execute() async throws -> [Restaurant] {
         try await repositry.fetchRestaurants()
     }
-    
 }
