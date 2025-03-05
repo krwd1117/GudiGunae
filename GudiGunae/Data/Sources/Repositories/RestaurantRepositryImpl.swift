@@ -20,7 +20,11 @@ public class RestaurantRepositoryImpl: RestaurantRepository {
     }
     
     public func fetchRestaurants() async throws -> [Restaurant] {
-        let restaurants: [Restaurant] = try await supabaseClient.from("restaurants").select().execute().value
+        let restaurants: [Restaurant] = try await supabaseClient
+            .from("restaurants")
+            .select()
+            .execute()
+            .value
         Logger.i(restaurants)
         return restaurants
     }

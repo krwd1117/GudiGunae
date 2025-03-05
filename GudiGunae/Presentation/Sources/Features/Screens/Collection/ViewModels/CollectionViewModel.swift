@@ -12,4 +12,10 @@ import Foundation
 class CollectionViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
     @Published var selectedImageURL: String?
+    
+    var filteredRestaurants: [Restaurant] {
+        return restaurants.filter { restaurant in
+            restaurant.isOpen
+        }
+    }
 }

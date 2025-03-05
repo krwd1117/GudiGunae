@@ -23,7 +23,6 @@ struct MapView: View {
                 .onReceive(bottomTabBarViewModel.$restaurants) { newRestaurants in
                     viewModel.restaurants = newRestaurants
                 }
-            
             if let selectedRestaurant = viewModel.selectedRestaurant {
                 let viewModel = RestaurantCardViewModel(selectedRestaurant: selectedRestaurant)
                 RestaurantCardView(viewModel: viewModel)

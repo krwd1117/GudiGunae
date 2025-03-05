@@ -43,7 +43,7 @@ struct NaverMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: NMFNaverMapView, context: Context) {
-        for restaurant in viewModel.restaurants {
+        for restaurant in viewModel.filteredRestaurants {
             let marker = NMFMarker()
             marker.position = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
             marker.captionText = restaurant.name

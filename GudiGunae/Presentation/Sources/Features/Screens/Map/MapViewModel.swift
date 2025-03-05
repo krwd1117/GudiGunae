@@ -20,4 +20,10 @@ class MapViewModel: ObservableObject {
     func clearSelection() {
         selectedRestaurant = nil
     }
+    
+    var filteredRestaurants: [Restaurant] {
+        return restaurants.filter { restaurant in
+            restaurant.isOpen
+        }
+    }
 }

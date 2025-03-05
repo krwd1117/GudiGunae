@@ -22,7 +22,7 @@ struct CollectionView: View {
     var body: some View {
         ScrollView(.vertical) {
             LazyVGrid(columns: columns, spacing: 10) {
-                ForEach(viewModel.restaurants) { restaurant in
+                ForEach(viewModel.filteredRestaurants) { restaurant in
                     CollectionCellView(viewModel: CollectionCellViewModel(restaurant: restaurant))
                         .onTapGesture {
                             viewModel.selectedImageURL = restaurant.imageURL
@@ -40,6 +40,11 @@ struct CollectionView: View {
             if let imageURL = viewModel.selectedImageURL {
                 let viewModel = DetailImageViewModel(imageURL: imageURL)
                 DetailImageView(viewModel: viewModel)
+            }
+        }
+        .refreshable {
+            Task {
+                try await bottomTabBarViewModel.fetchRestaurant()
             }
         }
     }

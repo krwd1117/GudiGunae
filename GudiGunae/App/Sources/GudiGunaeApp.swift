@@ -5,14 +5,11 @@ import Core
 import Data
 import Presentation
 
-import FirebaseCore
 
 @main
 struct GuroGunaeApp: App {
     
     init() {
-        
-        FirebaseApp.configure()
         
         // 앱 시작 시 로그 레벨 설정
         #if DEBUG
