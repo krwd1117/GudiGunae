@@ -25,13 +25,18 @@ struct BottomTabBarView: View {
         reportRestaurantUseCase: ReportRestaurantUseCase,
         inquiryUseCase: InquiryUseCase
     ) {
+        _bottomTabBarViewModel = StateObject(
+            wrappedValue: BottomTabBarViewModel(
+                fetchRestaurantUseCase: fetchRestaurantUseCase
+            )
+        )
+        
         _settingCoordinator = StateObject(
             wrappedValue: SettingCoordinator(
                 reportRestaurantUseCase: reportRestaurantUseCase,
                 inquiryUseCase: inquiryUseCase
             )
         )
-        _bottomTabBarViewModel = StateObject(wrappedValue: BottomTabBarViewModel(fetchRestaurantUseCase: fetchRestaurantUseCase))
     }
     
     var body: some View {
@@ -68,9 +73,11 @@ struct BottomTabBarView: View {
                 }
                 .tag(BottomTabBar.setting)
         }
-        .onAppear {
-            Task {
-                try await bottomTabBarViewModel.fetchRestaurant()
+        .task {
+            if bottomTabBarViewModel.restaurants.isEmpty {
+                Task {
+                    try await bottomTabBarViewModel.fetchRestaurant()
+                }
             }
         }
     }

@@ -2,6 +2,11 @@ import ProjectDescription
 
 let project = Project(
     name: "GudiGunae",
+    settings: .settings(
+        base: [
+            "OTHER_LDFLAGS": "$(inherited) -ObjC"
+        ]
+    ),
     targets: [
         .target(
             name: "GudiGunae",
@@ -27,7 +32,7 @@ let project = Project(
                 .target(name: "Data"),
                 .target(name: "Presentation"),
                 .target(name: "Domain"),
-                .target(name: "Core"),
+                .target(name: "Core")
             ]
         ),
         .target(
@@ -87,7 +92,7 @@ let project = Project(
             name: "GudiGunaeTests",
             destinations: .iOS,
             product: .unitTests,
-            bundleId: "com.krwd.GudiGunae.Tests",
+            bundleId: "com.krwd.GudiGunae.tests",
             infoPlist: .default,
             sources: ["GudiGunae/Tests/**"],
             resources: [],
