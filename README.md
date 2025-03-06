@@ -11,9 +11,9 @@
 
 ## 📱 Screenshots  
 <div style="display: flex; justify-content: center; gap: 10px;">
-  <img src="Docs/images/1.PNG" width="30%" />
-  <img src="Docs/images/2.PNG" width="30%" />
-  <img src="Docs/images/3.PNG" width="30%" />
+  <img src="Docs/images/1.png" width="30%" />
+  <img src="Docs/images/2.png" width="30%" />
+  <img src="Docs/images/3.png" width="30%" />
 </div>
 
 ## 📱 Features  
