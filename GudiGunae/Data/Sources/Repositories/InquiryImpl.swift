@@ -6,8 +6,9 @@
 //
 
 import Core
-import Supabase
 import Domain
+
+import Supabase
 
 public class InquiryImpl: InquiryRepository {
     

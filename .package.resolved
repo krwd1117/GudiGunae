@@ -1,5 +1,5 @@
 {
-  "originHash" : "1cb151a3b636491f0c4df0ccbb12a4e9297f427d9a579bc5e21849f458f85dcf",
+  "originHash" : "f31f822efe0301a7c02bd5d01577f323e34059dbb332b929c87d1d168c51b347",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -130,7 +130,7 @@
     {
       "identity" : "spm-nmapsmap",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/navermaps/SPM-NMapsMap",
+      "location" : "https://github.com/navermaps/SPM-NMapsMap.git",
       "state" : {
         "revision" : "606cb2df9bcffcf6df62ba00d0322965a4c730e9",
         "version" : "3.20.0"
@@ -139,7 +139,7 @@
     {
       "identity" : "supabase-swift",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/supabase/supabase-swift.git",
+      "location" : "https://github.com/supabase-community/supabase-swift.git",
       "state" : {
         "revision" : "e2ca2908d80e0b5e2e22659cfe9af4651cebf7c2",
         "version" : "2.26.0"
