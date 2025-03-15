@@ -34,8 +34,8 @@ let project = Project(
                     "UIBackgroundModes": ["remote-notification"]
                 ]
             ),
-            sources: ["GudiGunae/App/Sources/**"],
-            resources: ["GudiGunae/App/Resources/**"],
+            sources: ["GudiGunae/Sources/**"],
+            resources: ["GudiGunae/Resources/**"],
             scripts: [
                 .post(
                     script: """
@@ -44,7 +44,7 @@ let project = Project(
                     set -e
 
                     echo "🔍 Locating GoogleService-Info.plist..."
-                    GOOGLE_SERVICE_PLIST="${SRCROOT}/GudiGunae/App/Resources/GoogleService-Info.plist"
+                    GOOGLE_SERVICE_PLIST="${SRCROOT}/GudiGunae/Resources/GoogleService-Info.plist"
                     if [ ! -f "$GOOGLE_SERVICE_PLIST" ]; then
                         echo "❌ GoogleService-Info.plist not found at $GOOGLE_SERVICE_PLIST"
                         exit 1
@@ -86,8 +86,7 @@ let project = Project(
             bundleId: "com.krwd.GudiGunae.domain",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["GudiGunae/Domain/Sources/**"],
-            resources: ["GudiGunae/Domain/Resources/**"],
+            sources: ["GudiGunae/Sources/Domain/**"],
             dependencies: [
                 .target(name: "Core"),
             ]
@@ -99,8 +98,7 @@ let project = Project(
             bundleId: "com.krwd.GudiGunae.data",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["GudiGunae/Data/Sources/**"],
-            resources: ["GudiGunae/Data/Resources/**"],
+            sources: ["GudiGunae/Sources/Data/**"],
             dependencies: [
                 .package(product: "Supabase"),
                 // .external(name: "Supabase"),
@@ -114,8 +112,7 @@ let project = Project(
             bundleId: "com.krwd.GudiGunae.presentation",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["GudiGunae/Presentation/Sources/**"],
-            resources: ["GudiGunae/Presentation/Resources/**"],
+            sources: ["GudiGunae/Sources/Presentation/**"],
             dependencies: [
                  .package(product: "Kingfisher"),
                 .target(name: "Domain"),
@@ -129,8 +126,7 @@ let project = Project(
             bundleId: "com.krwd.GudiGunae.core",
             deploymentTargets: .iOS("16.0"),
             infoPlist: .default,
-            sources: ["GudiGunae/Core/Sources/**"],
-            resources: ["GudiGunae/Core/Resources/**"],
+            sources: ["GudiGunae/Sources/Core/**"],
             dependencies: []
         ),
         .target(
