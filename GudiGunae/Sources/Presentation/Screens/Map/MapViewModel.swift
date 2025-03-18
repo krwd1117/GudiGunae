@@ -17,12 +17,10 @@ class MapViewModel: ObservableObject {
     
     init(useCase: FetchRestaurantUseCase) {
         self.useCase = useCase
-        Task {
-            await FetchRestaurants()
-        }
     }
     
-    func FetchRestaurants() async {
+    @MainActor
+    func fetchRestaurants() async {
         do {
             let restaurants = try await useCase.execute()
             self.restaurants = restaurants

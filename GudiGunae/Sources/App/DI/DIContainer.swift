@@ -34,13 +34,17 @@ final class DIContainer: DIContainerProtocol {
     }
     
     private func registerDependencies() async {
-        let restaurantRepository: RestaurantRepository = RestaurantRepositoryImpl(
-            supabaseClient: supabaseService.client
-        )
-        let fetchRestaurantUseCase = FetchRestaurantUseCase(
-            restaurantRepository: restaurantRepository
-        )
+        let restaurantRepository: RestaurantRepository = RestaurantRepositoryImpl(supabaseClient: supabaseService.client)
+        let fetchRestaurantUseCase = FetchRestaurantUseCase(restaurantRepository: restaurantRepository)
         register(FetchRestaurantUseCase.self, instance: fetchRestaurantUseCase)
+        
+        let inquiryRepository: InquiryRepository = InquiryImpl(supabaseClient: supabaseService.client)
+        let inquireUseCase = InquiryUseCase(inquiryRepository: inquiryRepository)
+        register(InquiryUseCase.self, instance: inquireUseCase)
+        
+        let reportRestaurantRepository: ReportRestaurantRepository = ReportRestaurantImpl(supabaseClient: supabaseService.client)
+        let reportRestaurantUseCase = ReportRestaurantUseCase(reportRestaurantRepository: reportRestaurantRepository)
+        register(ReportRestaurantUseCase.self, instance: reportRestaurantUseCase)
     }
     
     

@@ -18,7 +18,9 @@ struct GuroGunaeApp: App {
         WindowGroup {
             if isDIInitialized && isSplashInitialized {
                 TabBarView(
-                    fetchRestaurantUseCase: container.resolve(FetchRestaurantUseCase.self)
+                    fetchRestaurantUseCase: container.resolve(FetchRestaurantUseCase.self),
+                    inquiryUseCase: container.resolve(InquiryUseCase.self),
+                    reportRestaurantUseCase: container.resolve(ReportRestaurantUseCase.self)
                 )
             } else {
                 SplashView(isInitialized: $isSplashInitialized)

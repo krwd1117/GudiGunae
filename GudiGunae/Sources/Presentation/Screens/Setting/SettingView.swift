@@ -6,14 +6,18 @@
 //
 
 import SwiftUI
+import Domain
 
 struct SettingView: View {
     @ObservedObject var coordinator: SettingTabCoordinator
-    @StateObject var viewModel: SettingViewModel = SettingViewModel()
+    @StateObject var viewModel: SettingViewModel
     
-    // 앱 버전 가져오기
-    private var appVersion: String {
-        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
+    init(coordinator: SettingTabCoordinator, inquiryUseCase: InquiryUseCase, reportRestaurantUseCase: ReportRestaurantUseCase) {
+        self.coordinator = coordinator
+        self._viewModel = StateObject(wrappedValue: SettingViewModel(
+            inquiryUseCase: inquiryUseCase,
+            reportRestaurantUseCase: reportRestaurantUseCase
+        ))
     }
     
     var body: some View {
@@ -43,14 +47,16 @@ struct SettingView: View {
                 .listStyle(.plain)
                 
                 // 앱 버전 표시 (하단 정렬)
-                Text("버전 \(appVersion)")
+                Text("버전 \(viewModel.appVersion)")
                     .font(.footnote)
                     .padding()
             }
             .navigationDestination(for: SettingTabCoordinator.Route.self) { route in
                 switch route {
-                default:
-                    EmptyView()
+                case .report:
+                    ReportRestaurantView(reportRestaurantUseCase: viewModel.reportRestaurantUseCase)
+                case .inquiry:
+                    AppInquiryView(inquiryUseCase: viewModel.inquiryUseCase)
                 }
             }
             .navigationTitle("설정")
@@ -58,6 +64,3 @@ struct SettingView: View {
     }
 }
 
-class SettingViewModel: ObservableObject {
-    
-}

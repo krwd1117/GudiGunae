@@ -13,6 +13,22 @@ class CollectionViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
     @Published var selectedImageURL: String?
     
+    private let useCase: FetchRestaurantUseCase
+    
+    init(useCase: FetchRestaurantUseCase) {
+        self.useCase = useCase
+    }
+    
+    @MainActor
+    func fetchRestaurants() async {
+        do {
+            let restaurants = try await useCase.execute()
+            self.restaurants = restaurants
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
     var filteredRestaurants: [Restaurant] {
         return restaurants.filter { restaurant in
             restaurant.isOpen

@@ -10,9 +10,11 @@ import SwiftUI
 class MapTabCoordinator: Coordinator {
     enum Route: Hashable {
         case map
+        case detail(id: UUID)
     }
     
     @Published var path: NavigationPath = NavigationPath()
+    @Published var showDetailImage: Bool = false
     
     var parent: (any Coordinator)?
     

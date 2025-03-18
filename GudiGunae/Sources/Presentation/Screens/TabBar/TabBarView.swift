@@ -10,22 +10,19 @@ import Domain
 
 public struct TabBarView: View {
     @StateObject private var coordinator: TabBarCoordinator = TabBarCoordinator()
-//    @StateObject var mapCoordiantor: MapCoordinator = MapCoordinator()
-//    @StateObject var settingCoordinator: SettingCoordinator
-//    @StateObject var viewModel: TabBarViewModel
     
     let fetchRestaurantUseCase: FetchRestaurantUseCase
-//    let reportRestaurantUseCase: ReportRestaurantUseCase
-//    let inquiryUseCase: InquiryUseCase
+    let inquiryUseCase: InquiryUseCase
+    let reportRestaurantUseCase: ReportRestaurantUseCase
     
     public init(
-        fetchRestaurantUseCase: FetchRestaurantUseCase
-//        reportRestaurantUseCase: ReportRestaurantUseCase,
-//        inquiryUseCase: InquiryUseCase
+        fetchRestaurantUseCase: FetchRestaurantUseCase,
+        inquiryUseCase: InquiryUseCase,
+        reportRestaurantUseCase: ReportRestaurantUseCase
     ) {
         self.fetchRestaurantUseCase = fetchRestaurantUseCase
-//        self.reportRestaurantUseCase = reportRestaurantUseCase
-//        self.inquiryUseCase = inquiryUseCase
+        self.inquiryUseCase = inquiryUseCase
+        self.reportRestaurantUseCase = reportRestaurantUseCase
     }
     
     public var body: some View {
@@ -37,19 +34,19 @@ public struct TabBarView: View {
                 }
                 .tag(TabBarCoordinator.Route.map)
             
-//            CollectionView(coordinator: coordinator.collectionTabCoordinator)
-//                .tabItem {
-//                    Image(systemName: "square.grid.2x2")
-//                    Text("모아보기")
-//                }
-//                .tag(TabBarCoordinator.Route.collection)
+            CollectionView(coordinator: coordinator.collectionTabCoordinator, useCase: fetchRestaurantUseCase)
+                .tabItem {
+                    Image(systemName: "square.grid.2x2")
+                    Text("모아보기")
+                }
+                .tag(TabBarCoordinator.Route.collection)
             
-//            SettingView(coordinator: coordinator.settingTabCoordinator)
-//                .tabItem {
-//                    Image(systemName: "gear")
-//                    Text("설정")
-//                }
-//                .tag(TabBarCoordinator.Route.setting)
+            SettingView(coordinator: coordinator.settingTabCoordinator, inquiryUseCase: inquiryUseCase, reportRestaurantUseCase: reportRestaurantUseCase)
+                .tabItem {
+                    Image(systemName: "gear")
+                    Text("설정")
+                }
+                .tag(TabBarCoordinator.Route.setting)
         }
     }
 }

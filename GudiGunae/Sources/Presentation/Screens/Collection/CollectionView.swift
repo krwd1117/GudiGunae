@@ -6,12 +6,18 @@
 //
 
 import SwiftUI
+import Domain
 
 struct CollectionView: View {
     @ObservedObject var coordinator: CollectionTabCoordinator
-    @StateObject var viewModel: CollectionViewModel = CollectionViewModel()
+    @StateObject var viewModel: CollectionViewModel
 
     @State var showDetailImage: Bool = false
+    
+    init(coordinator: CollectionTabCoordinator, useCase: FetchRestaurantUseCase) {
+        self.coordinator = coordinator
+        self._viewModel = StateObject(wrappedValue: CollectionViewModel(useCase: useCase))
+    }
     
     let columns = [
         GridItem(.flexible()),
@@ -35,6 +41,11 @@ struct CollectionView: View {
             .background(Color.gray.opacity(0.2))
             
             .navigationTitle("모아보기")
+        }
+        .onAppear {
+            Task {
+                await viewModel.fetchRestaurants()
+            }
         }
 //        .onReceive(bottomTabBarViewModel.$restaurants) { newRestaurants in
 //            viewModel.restaurants = newRestaurants
