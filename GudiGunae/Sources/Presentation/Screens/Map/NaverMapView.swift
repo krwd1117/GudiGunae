@@ -14,8 +14,8 @@ import NMapsMap
 
 
 struct NaverMapView: UIViewRepresentable {
-    @EnvironmentObject var coordinator: MapCoordinator
-    @EnvironmentObject var viewModel: MapViewModel
+    @ObservedObject var coordinator: MapTabCoordinator
+    @ObservedObject var viewModel: MapViewModel
     
     func makeUIView(context: Context) -> NMFNaverMapView {
         let mapView: NMFNaverMapView = NMFNaverMapView()

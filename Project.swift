@@ -34,7 +34,7 @@ let project = Project(
                     "UIBackgroundModes": ["remote-notification"]
                 ]
             ),
-            sources: ["GudiGunae/Sources/**"],
+            sources: ["GudiGunae/Sources/App/**"],
             resources: ["GudiGunae/Resources/**"],
             scripts: [
                 .post(

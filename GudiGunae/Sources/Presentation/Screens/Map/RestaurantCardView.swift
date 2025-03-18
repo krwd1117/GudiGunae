@@ -10,7 +10,7 @@ import Kingfisher
 import Domain
 
 struct RestaurantCardView: View {
-    @EnvironmentObject var coordinator: MapCoordinator
+    @EnvironmentObject var coordinator: MapTabCoordinator
     @Environment(\.colorScheme) var colorScheme
     
     @StateObject var viewModel: RestaurantCardViewModel

@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct CollectionView: View {
-    @EnvironmentObject var bottomTabBarViewModel: BottomTabBarViewModel
-    
+    @ObservedObject var coordinator: CollectionTabCoordinator
     @StateObject var viewModel: CollectionViewModel = CollectionViewModel()
 
     @State var showDetailImage: Bool = false
@@ -37,19 +36,19 @@ struct CollectionView: View {
             
             .navigationTitle("모아보기")
         }
-        .onReceive(bottomTabBarViewModel.$restaurants) { newRestaurants in
-            viewModel.restaurants = newRestaurants
-        }
+//        .onReceive(bottomTabBarViewModel.$restaurants) { newRestaurants in
+//            viewModel.restaurants = newRestaurants
+//        }
         .fullScreenCover(isPresented: $showDetailImage) {
             if let imageURL = viewModel.selectedImageURL {
                 let viewModel = DetailImageViewModel(imageURL: imageURL)
                 DetailImageView(viewModel: viewModel)
             }
         }
-        .refreshable {
-            Task {
-                try await bottomTabBarViewModel.fetchRestaurant()
-            }
-        }
+//        .refreshable {
+//            Task {
+//                try await bottomTabBarViewModel.fetchRestaurant()
+//            }
+//        }
     }
 }

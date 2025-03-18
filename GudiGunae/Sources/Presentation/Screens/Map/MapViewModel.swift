@@ -13,6 +13,24 @@ class MapViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
     @Published var selectedRestaurant: Restaurant?
     
+    private let useCase: FetchRestaurantUseCase
+    
+    init(useCase: FetchRestaurantUseCase) {
+        self.useCase = useCase
+        Task {
+            await FetchRestaurants()
+        }
+    }
+    
+    func FetchRestaurants() async {
+        do {
+            let restaurants = try await useCase.execute()
+            self.restaurants = restaurants
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+    
     func selectRestaurant(_ restaurant: Restaurant) {
         selectedRestaurant = restaurant
     }

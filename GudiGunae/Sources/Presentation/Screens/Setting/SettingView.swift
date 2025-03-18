@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct SettingView: View {
-    @EnvironmentObject var coordinator: SettingCoordinator
+    @ObservedObject var coordinator: SettingTabCoordinator
+    @StateObject var viewModel: SettingViewModel = SettingViewModel()
     
     // 앱 버전 가져오기
     private var appVersion: String {
@@ -20,7 +21,7 @@ struct SettingView: View {
             VStack {
                 List {
                     Button(action: {
-                        coordinator.push(.Report)
+                        coordinator.navigate(to: .report)
                     }, label: {
                         HStack {
                             Text("식당 제보하기")
@@ -30,7 +31,7 @@ struct SettingView: View {
                     })
                     
                     Button(action: {
-                        coordinator.push(.Inquiry)
+                        coordinator.navigate(to: .inquiry)
                     }, label: {
                         HStack {
                             Text("앱 문의하기")
@@ -46,10 +47,17 @@ struct SettingView: View {
                     .font(.footnote)
                     .padding()
             }
-            .navigationDestination(for: SettingRoute.self) { route in
-                coordinator.view(route)
+            .navigationDestination(for: SettingTabCoordinator.Route.self) { route in
+                switch route {
+                default:
+                    EmptyView()
+                }
             }
             .navigationTitle("설정")
         }
     }
+}
+
+class SettingViewModel: ObservableObject {
+    
 }

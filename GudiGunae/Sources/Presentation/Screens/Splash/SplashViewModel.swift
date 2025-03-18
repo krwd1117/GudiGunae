@@ -10,16 +10,13 @@ import Combine
 
 import Core
 
-class SplashViewModel: ObservableObject {
-    private let coordinator: RootCoordinator
-    
+public class SplashViewModel: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
-    init(coordinator: RootCoordinator) {
-        self.coordinator = coordinator
-        
-        LocationService.shared.requestAuthorization()
-        
+    @Published var isInitialized: Bool = false
+    
+    public init() {
+        requestLocationPermission()
         binding()
     }
     
@@ -30,14 +27,13 @@ class SplashViewModel: ObservableObject {
                     switch status {
                     case .authorizedWhenInUse, .authorizedAlways:
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self?.coordinator.finishedSplash()
+                            self?.isInitialized = true
                         }
                     case .denied, .restricted:
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                            self?.coordinator.finishedSplash()
+                            self?.isInitialized = true
                         }
                     case .notDetermined:
-                        // 초기 상태
                         break
                     @unknown default:
                         break
