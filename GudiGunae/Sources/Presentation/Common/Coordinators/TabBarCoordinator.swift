@@ -20,9 +20,9 @@ public final class TabBarCoordinator: Coordinator {
     
     var parent: (any Coordinator)?
     
-    let mapTabCoordinator: MapTabCoordinator
-    let collectionTabCoordinator: CollectionTabCoordinator
-    let settingTabCoordinator: SettingTabCoordinator
+    var mapTabCoordinator: MapTabCoordinator
+    var collectionTabCoordinator: CollectionTabCoordinator
+    var settingTabCoordinator: SettingTabCoordinator
     
     init() {
         self.mapTabCoordinator = MapTabCoordinator()
@@ -46,6 +46,3 @@ public final class TabBarCoordinator: Coordinator {
         }
     }
 }
-
-
-

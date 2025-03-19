@@ -9,7 +9,7 @@ import Foundation
 import Domain
 
 class CollectionCellViewModel: ObservableObject {
-    private var restaurant: Restaurant
+    var restaurant: Restaurant
     
     init(restaurant: Restaurant) {
         self.restaurant = restaurant

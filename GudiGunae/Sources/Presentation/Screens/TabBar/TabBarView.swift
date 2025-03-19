@@ -15,6 +15,9 @@ public struct TabBarView: View {
     let inquiryUseCase: InquiryUseCase
     let reportRestaurantUseCase: ReportRestaurantUseCase
     
+    let mapViewModel: MapViewModel
+    let collectionViewModel: CollectionViewModel
+    
     public init(
         fetchRestaurantUseCase: FetchRestaurantUseCase,
         inquiryUseCase: InquiryUseCase,
@@ -23,18 +26,23 @@ public struct TabBarView: View {
         self.fetchRestaurantUseCase = fetchRestaurantUseCase
         self.inquiryUseCase = inquiryUseCase
         self.reportRestaurantUseCase = reportRestaurantUseCase
+        
+        self.mapViewModel = MapViewModel(useCase: fetchRestaurantUseCase)
+        self.collectionViewModel = CollectionViewModel(useCase: fetchRestaurantUseCase)
     }
     
     public var body: some View {
-        TabView {
-            MapView(coordinator: coordinator.mapTabCoordinator, useCase: fetchRestaurantUseCase)
+        TabView(selection: $coordinator.selectedTab) {
+            MapView(viewModel: mapViewModel)
+                .environmentObject(coordinator)
                 .tabItem {
                     Image(systemName: "map")
                     Text("지도")
                 }
                 .tag(TabBarCoordinator.Route.map)
             
-            CollectionView(coordinator: coordinator.collectionTabCoordinator, useCase: fetchRestaurantUseCase)
+            CollectionView(viewModel: collectionViewModel, mapViewModel: mapViewModel)
+                .environmentObject(coordinator)
                 .tabItem {
                     Image(systemName: "square.grid.2x2")
                     Text("모아보기")

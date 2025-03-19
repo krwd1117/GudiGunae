@@ -17,8 +17,8 @@ class TabBarViewModel: ObservableObject {
         self.fetchRestaurantUseCase = fetchRestaurantUseCase
     }
     
-    @MainActor
-    func fetchRestaurant() async throws {
-        self.restaurants = try await fetchRestaurantUseCase.execute()
-    }
+//    @MainActor
+//    func fetchRestaurant() async throws {
+//        self.restaurants = try await fetchRestaurantUseCase.execute()
+//    }
 }

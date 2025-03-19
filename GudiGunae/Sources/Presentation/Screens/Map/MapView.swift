@@ -6,38 +6,36 @@
 //
 
 import SwiftUI
+import Core
+
 import Domain
 
 struct MapView: View {
-    @ObservedObject private var coordinator: MapTabCoordinator
+    @EnvironmentObject private var coordinator: TabBarCoordinator
     @StateObject private var viewModel: MapViewModel
+    @State var showDetailImage = false
     
-    init(coordinator: MapTabCoordinator, useCase: FetchRestaurantUseCase) {
-        self.coordinator = coordinator
-        self._viewModel = StateObject(wrappedValue: MapViewModel(useCase: useCase))
+    init(viewModel: MapViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
     }
     
     var body: some View {
-        NavigationStack(path: $coordinator.path) {
+        NavigationStack(path: $coordinator.mapTabCoordinator.path) {
             ZStack {
-                NaverMapView(coordinator: coordinator, viewModel: viewModel)
+                NaverMapView(coordinator: coordinator.mapTabCoordinator, viewModel: viewModel)
                 if let selectedRestaurant = viewModel.selectedRestaurant {
                     let viewModel = RestaurantCardViewModel(selectedRestaurant: selectedRestaurant)
                     RestaurantCardView(viewModel: viewModel)
-                        .onTapGesture {
-                            coordinator.showDetailImage = true
-                        }
                         .environmentObject(coordinator)
                         .id(selectedRestaurant.id)
+                        .onTapGesture {
+                            viewModel.selectedRestaurant = selectedRestaurant
+                            showDetailImage = true
+                        }
                 }
             }
         }
-        .onAppear {
-            Task {
-                await viewModel.fetchRestaurants()
-            }
-        }
-        .fullScreenCover(isPresented: $coordinator.showDetailImage) {
+        .fullScreenCover(isPresented: $showDetailImage) {
             if let imageURL = viewModel.selectedRestaurant?.imageURL {
                 let viewModel = DetailImageViewModel(imageURL: imageURL)
                 DetailImageView(viewModel: viewModel)

@@ -11,38 +11,39 @@ import Kingfisher
 import Domain
 
 struct CollectionCellView: View {
+    @EnvironmentObject var coordinator: TabBarCoordinator
+    @StateObject var mapViewModel: MapViewModel
     @StateObject var viewModel: CollectionCellViewModel
     
     var body: some View {
         VStack {
-            Text(viewModel.name)
-                .foregroundStyle(Color.black)
-                .fontWeight(.bold)
+            HStack {
+                Text(viewModel.name)
+                    .foregroundStyle(Color.black)
+                    .fontWeight(.bold)
+                
+                Spacer()
+                
+                Image(systemName: "dot.scope")
+                    .onTapGesture {
+                        if let tabBarCoordinator = coordinator.collectionTabCoordinator.parent as? TabBarCoordinator {
+                            tabBarCoordinator.mapTabCoordinator.mapViewModel = mapViewModel
+                            tabBarCoordinator.mapTabCoordinator.navigateToMapWithRestaurant(viewModel.restaurant)
+                        }
+                    }
+            }
             
             Divider()
             
             KFImage(viewModel.imageURL)
                 .resizable()
                 .frame(maxHeight: 300)
+            
+            Spacer()
         }
         .frame(maxWidth: .infinity)
         .padding()
         .background(Color.white)
         .cornerRadius(8)
     }
-}
-
-#Preview {
-    let viewModel = CollectionCellViewModel(
-        restaurant: Restaurant(
-            id: .init(),
-            name: "윤쉐프 - 구로 E&C",
-            address: "",
-            latitude: 0,
-            longitude: 0,
-            imageURL: "https://k.kakaocdn.net/dn/6uJAf/btsMwB63p6z/ouduTUh0iZmkYrIOZ9dJB1/img_xl.jpg",
-            isOpen: true
-        )
-    )
-    CollectionCellView(viewModel: viewModel)
 }

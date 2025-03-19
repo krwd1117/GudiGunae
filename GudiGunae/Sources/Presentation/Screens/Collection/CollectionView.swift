@@ -9,14 +9,16 @@ import SwiftUI
 import Domain
 
 struct CollectionView: View {
-    @ObservedObject var coordinator: CollectionTabCoordinator
+    @EnvironmentObject var coordinator: TabBarCoordinator
+    
     @StateObject var viewModel: CollectionViewModel
-
+    @ObservedObject var mapViewModel: MapViewModel
+    
     @State var showDetailImage: Bool = false
     
-    init(coordinator: CollectionTabCoordinator, useCase: FetchRestaurantUseCase) {
-        self.coordinator = coordinator
-        self._viewModel = StateObject(wrappedValue: CollectionViewModel(useCase: useCase))
+    init(viewModel: CollectionViewModel, mapViewModel: MapViewModel) {
+        self._viewModel = StateObject(wrappedValue: viewModel)
+        self._mapViewModel = ObservedObject(wrappedValue: mapViewModel)
     }
     
     let columns = [
@@ -29,11 +31,15 @@ struct CollectionView: View {
             ScrollView(.vertical) {
                 LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(viewModel.filteredRestaurants) { restaurant in
-                        CollectionCellView(viewModel: CollectionCellViewModel(restaurant: restaurant))
-                            .onTapGesture {
-                                viewModel.selectedImageURL = restaurant.imageURL
-                                showDetailImage = true
-                            }
+                        CollectionCellView(
+                            mapViewModel: mapViewModel,
+                            viewModel: CollectionCellViewModel(restaurant: restaurant)
+                        )
+                        .environmentObject(coordinator)
+                        .onTapGesture {
+                            viewModel.selectedRestaurant = restaurant
+                            showDetailImage = true
+                        }
                     }
                 }
                 .padding()
@@ -47,19 +53,16 @@ struct CollectionView: View {
                 await viewModel.fetchRestaurants()
             }
         }
-//        .onReceive(bottomTabBarViewModel.$restaurants) { newRestaurants in
-//            viewModel.restaurants = newRestaurants
-//        }
+        .refreshable {
+            Task {
+                await viewModel.fetchRestaurants()
+            }
+        }
         .fullScreenCover(isPresented: $showDetailImage) {
-            if let imageURL = viewModel.selectedImageURL {
+            if let imageURL = viewModel.selectedRestaurant?.imageURL {
                 let viewModel = DetailImageViewModel(imageURL: imageURL)
                 DetailImageView(viewModel: viewModel)
             }
         }
-//        .refreshable {
-//            Task {
-//                try await bottomTabBarViewModel.fetchRestaurant()
-//            }
-//        }
     }
 }
