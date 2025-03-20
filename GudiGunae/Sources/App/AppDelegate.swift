@@ -36,7 +36,13 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(
             options: authOptions,
-            completionHandler: { _, _ in }
+            completionHandler: { granted, error in
+                // 처음 앱을 켰을 땐 'isNotificationsEnabled' 값이 없음
+                guard let _ = UserDefaults.standard.object(forKey: "isNotificationsEnabled") as? Bool else {
+                    UserDefaults.standard.set(granted, forKey: "isNotificationsEnabled")
+                    return
+                }
+            }
         )
         
         // 앱에 푸시 알림 등록
@@ -76,15 +82,27 @@ extension AppDelegate: MessagingDelegate {
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([[.banner, .badge, .sound]])
+        let isNotificationsEnabled = UserDefaults.standard.bool(forKey: "isNotificationsEnabled")
+        
+        if isNotificationsEnabled {
+            completionHandler([[.banner, .badge, .sound]])
+        } else {
+            completionHandler([])
+        }
     }
     
     /// FCM 메시지를 백그라운드에서 수신하는 메서드
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: [AnyHashable: Any],
                      fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-        Logger.d("백그라운드에서 FCM 메시지 수신: \(userInfo)")
-        completionHandler(.newData)
+        let isNotificationsEnabled = UserDefaults.standard.bool(forKey: "isNotificationsEnabled")
+        
+        if isNotificationsEnabled {
+            Logger.d("백그라운드에서 FCM 메시지 수신: \(userInfo)")
+            completionHandler(.newData)
+        } else {
+            completionHandler(.noData)
+        }
     }
     
     /// 사용자가 푸시 알림을 탭했을 때 호출되는 메서드
@@ -93,8 +111,12 @@ extension AppDelegate: MessagingDelegate {
         didReceive response: UNNotificationResponse,
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
-        // 알림의 userInfo에서 필요한 데이터 추출
-        let _ = response.notification.request.content.userInfo
+        let isNotificationsEnabled = UserDefaults.standard.bool(forKey: "isNotificationsEnabled")
+        
+        if isNotificationsEnabled {
+            let userInfo = response.notification.request.content.userInfo
+            // 알림 처리 로직
+        }
         completionHandler()
     }
 }

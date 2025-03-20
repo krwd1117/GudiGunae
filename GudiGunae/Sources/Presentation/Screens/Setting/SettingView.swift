@@ -24,6 +24,11 @@ struct SettingView: View {
         NavigationStack(path: $coordinator.path) {
             VStack {
                 List {
+                    Toggle(isOn: $viewModel.isNotificationsEnabled) {
+                        Text("앱 알림")
+                    }
+                    .tint(.blue)
+                    
                     Button(action: {
                         coordinator.navigate(to: .report)
                     }, label: {
