@@ -94,7 +94,7 @@ extension AppDelegate: MessagingDelegate {
         withCompletionHandler completionHandler: @escaping () -> Void
     ) {
         // 알림의 userInfo에서 필요한 데이터 추출
-        let userInfo = response.notification.request.content.userInfo
+        let _ = response.notification.request.content.userInfo
         completionHandler()
     }
 }

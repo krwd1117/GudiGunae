@@ -17,7 +17,7 @@ class CollectionViewModel: ObservableObject {
     @Published var selectedRestaurant: Restaurant?
     @Published var selectedRestaurants: [Restaurant] = []
     
-    @Published var activityItems: [UIImage?] = []
+    @Published var activityItems: [Any] = []
     
     private let useCase: FetchRestaurantUseCase
     
@@ -43,7 +43,7 @@ class CollectionViewModel: ObservableObject {
     
     @MainActor
     func createInitialShareItems() async {
-        var shareItems: [UIImage?] = []
+        var shareItems: [Any] = []
         
         // 이미지 다운로드 및 추가
         for restaurant in selectedRestaurants {
@@ -52,7 +52,7 @@ class CollectionViewModel: ObservableObject {
                 do {
                     let downloader = KingfisherManager.shared.downloader
                     let imageData = try await downloader.downloadImage(with: imageURL).originalData
-                    let image = UIImage(data: imageData)
+                    let image = UIImage(data: imageData) as Any
                     shareItems.append(image)
                 } catch {
                     Logger.e("이미지 다운로드 실패: \(error)")

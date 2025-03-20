@@ -36,32 +36,31 @@ let project = Project(
             ),
             sources: ["GudiGunae/Sources/App/**"],
             resources: ["GudiGunae/Resources/**"],
+            entitlements: .file(path: .relativeToRoot("GudiGunae/Resources/GudiGunae-Develop.entitlements")),
             scripts: [
                 .post(
                     script: """
-                    #!/bin/bash
+                        #!/bin/bash
+                        set -e
 
-                    set -e
+                        echo "🔍 Locating GoogleService-Info.plist..."
+                        GOOGLE_SERVICE_PLIST="${PROJECT_DIR}/GudiGunae/Resources/GoogleService-Info.plist"
+                        if [ ! -f "$GOOGLE_SERVICE_PLIST" ]; then
+                            echo "❌ GoogleService-Info.plist not found at $GOOGLE_SERVICE_PLIST"
+                            exit 1
+                        fi
 
-                    echo "🔍 Locating GoogleService-Info.plist..."
-                    GOOGLE_SERVICE_PLIST="${SRCROOT}/GudiGunae/Resources/GoogleService-Info.plist"
-                    if [ ! -f "$GOOGLE_SERVICE_PLIST" ]; then
-                        echo "❌ GoogleService-Info.plist not found at $GOOGLE_SERVICE_PLIST"
-                        exit 1
-                    fi
+                        echo "🔄 Finding all dSYM files..."
+                        DSYM_PATH="${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
+                        if [ ! -d "$DSYM_PATH" ]; then
+                            echo "⚠️ dSYM folder not found at $DSYM_PATH"
+                            exit 0
+                        fi
 
-                    echo "🔄 Finding all dSYM files..."
-                    # DWARF_DSYM_FOLDER_PATH, DWARF_DSYM_FILE_NAME는 Xcode 빌드 환경 변수입니다.
-                    DSYM_PATH="${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}"
-                    if [ ! -d "$DSYM_PATH" ]; then
-                        echo "⚠️ dSYM folder not found at $DSYM_PATH"
-                        exit 0
-                    fi
+                        echo "🚀 Uploading dSYM file using Firebase Crashlytics script"
+                        "${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run" -gsp "${GOOGLE_SERVICE_PLIST}" -p ios "${DSYM_PATH}"
 
-                    echo "🚀 Uploading dSYM file using /usr/local/bin/upload-symbols"
-                    /usr/local/bin/upload-symbols -gsp "$GOOGLE_SERVICE_PLIST" -p ios "$DSYM_PATH"
-
-                    echo "✅ dSYM upload complete!"
+                        echo "✅ dSYM upload complete!"
                     """,
                     name: "Upload dSYM to Crashlytics",
                     basedOnDependencyAnalysis: false
@@ -77,7 +76,15 @@ let project = Project(
                 .target(name: "Presentation"),
                 .target(name: "Domain"),
                 .target(name: "Core")
-            ]
+            ],
+            settings: .settings(
+                configurations: [
+                    .debug(name: "Debug", settings: [:], xcconfig: nil),
+                    .release(name: "Release", settings: [
+                        "CODE_SIGN_ENTITLEMENTS": "GudiGunae/Resources/GudiGunae-Production.entitlements"
+                    ], xcconfig: nil)
+                ]
+            )
         ),
         .target(
             name: "Domain",

@@ -8,8 +8,6 @@
 import CoreLocation
 import Combine
 
-import Core
-
 public class LocationService: NSObject, ObservableObject {
     public static let shared = LocationService() // 싱글톤 패턴
     
