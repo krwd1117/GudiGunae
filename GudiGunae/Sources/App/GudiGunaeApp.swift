@@ -4,6 +4,7 @@ import Core
 import Data
 import Domain
 import Presentation
+import DI
 
 @main
 struct GuroGunaeApp: App {
@@ -12,20 +13,14 @@ struct GuroGunaeApp: App {
     @State private var isSplashInitialized: Bool = false
     @State private var isDIInitialized: Bool = false
     
-    private let container = DIContainer.shared
-    
     var body: some Scene {
         WindowGroup {
             if isDIInitialized && isSplashInitialized {
-                TabBarView(
-                    fetchRestaurantUseCase: container.resolve(FetchRestaurantUseCase.self),
-                    inquiryUseCase: container.resolve(InquiryUseCase.self),
-                    reportRestaurantUseCase: container.resolve(ReportRestaurantUseCase.self)
-                )
+                TabBarView()
             } else {
                 SplashView(isInitialized: $isSplashInitialized)
                     .task {
-                        await container.initialize()
+                        await DIContainer.shared.initialize()
                         isDIInitialized = true
                     }
             }

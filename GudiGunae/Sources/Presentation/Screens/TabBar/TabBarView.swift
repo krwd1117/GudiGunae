@@ -11,24 +11,12 @@ import Domain
 public struct TabBarView: View {
     @StateObject private var coordinator: TabBarCoordinator = TabBarCoordinator()
     
-    let fetchRestaurantUseCase: FetchRestaurantUseCase
-    let inquiryUseCase: InquiryUseCase
-    let reportRestaurantUseCase: ReportRestaurantUseCase
     
-    let mapViewModel: MapViewModel
-    let collectionViewModel: CollectionViewModel
+    let mapViewModel: MapViewModel = MapViewModel()
+    let collectionViewModel: CollectionViewModel = CollectionViewModel()
     
-    public init(
-        fetchRestaurantUseCase: FetchRestaurantUseCase,
-        inquiryUseCase: InquiryUseCase,
-        reportRestaurantUseCase: ReportRestaurantUseCase
-    ) {
-        self.fetchRestaurantUseCase = fetchRestaurantUseCase
-        self.inquiryUseCase = inquiryUseCase
-        self.reportRestaurantUseCase = reportRestaurantUseCase
+    public init() {
         
-        self.mapViewModel = MapViewModel(useCase: fetchRestaurantUseCase)
-        self.collectionViewModel = CollectionViewModel(useCase: fetchRestaurantUseCase)
     }
     
     public var body: some View {
@@ -49,7 +37,7 @@ public struct TabBarView: View {
                 }
                 .tag(TabBarCoordinator.Route.collection)
             
-            SettingView(coordinator: coordinator.settingTabCoordinator, inquiryUseCase: inquiryUseCase, reportRestaurantUseCase: reportRestaurantUseCase)
+            SettingView(coordinator: coordinator.settingTabCoordinator)
                 .tabItem {
                     Image(systemName: "gear")
                     Text("설정")

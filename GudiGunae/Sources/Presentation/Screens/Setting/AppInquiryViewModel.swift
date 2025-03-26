@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-import Domain
+
 import Core
+import DI
+import Domain
+
 
 class AppInquiryViewModel: ObservableObject {
     @Published var title: String = ""
@@ -15,8 +18,8 @@ class AppInquiryViewModel: ObservableObject {
     
     private var inquiryUseCase: InquiryUseCase
     
-    init(inquiryUseCase: InquiryUseCase) {
-        self.inquiryUseCase = inquiryUseCase
+    init(inquiryUseCase: InquiryUseCase? = nil) {
+        self.inquiryUseCase = inquiryUseCase ?? DIContainer.shared.resolve(InquiryUseCase.self)
     }
     
     @MainActor

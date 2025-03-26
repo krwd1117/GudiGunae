@@ -10,14 +10,10 @@ import Domain
 
 struct SettingView: View {
     @ObservedObject var coordinator: SettingTabCoordinator
-    @StateObject var viewModel: SettingViewModel
+    @StateObject var viewModel: SettingViewModel = SettingViewModel()
     
-    init(coordinator: SettingTabCoordinator, inquiryUseCase: InquiryUseCase, reportRestaurantUseCase: ReportRestaurantUseCase) {
+    init(coordinator: SettingTabCoordinator) {
         self.coordinator = coordinator
-        self._viewModel = StateObject(wrappedValue: SettingViewModel(
-            inquiryUseCase: inquiryUseCase,
-            reportRestaurantUseCase: reportRestaurantUseCase
-        ))
     }
     
     var body: some View {
@@ -59,9 +55,9 @@ struct SettingView: View {
             .navigationDestination(for: SettingTabCoordinator.Route.self) { route in
                 switch route {
                 case .report:
-                    ReportRestaurantView(reportRestaurantUseCase: viewModel.reportRestaurantUseCase)
+                    ReportRestaurantView()
                 case .inquiry:
-                    AppInquiryView(inquiryUseCase: viewModel.inquiryUseCase)
+                    AppInquiryView()
                 }
             }
             .navigationTitle("설정")

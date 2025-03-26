@@ -9,8 +9,10 @@ import Foundation
 import Kingfisher
 import SwiftUI
 
-import Domain
 import Core
+import DI
+import Domain
+
 
 class CollectionViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
@@ -21,8 +23,8 @@ class CollectionViewModel: ObservableObject {
     
     private let useCase: FetchRestaurantUseCase
     
-    init(useCase: FetchRestaurantUseCase) {
-        self.useCase = useCase
+    init(useCase: FetchRestaurantUseCase? = nil) {
+        self.useCase = useCase ?? DIContainer.shared.resolve(FetchRestaurantUseCase.self)
     }
     
     @MainActor

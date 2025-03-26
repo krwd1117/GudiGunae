@@ -10,6 +10,7 @@ import Foundation
 import Combine
 
 import Core
+import DI
 import Domain
 
 class SettingViewModel: ObservableObject {
@@ -18,21 +19,21 @@ class SettingViewModel: ObservableObject {
     
     @Published var isNotificationsEnabled: Bool
     
-    let inquiryUseCase: InquiryUseCase
-    let reportRestaurantUseCase: ReportRestaurantUseCase
+    private let inquiryUseCase: InquiryUseCase
+    private let reportRestaurantUseCase: ReportRestaurantUseCase
     
-    // 앱 버전 가져오기
-    var appVersion: String {
-        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
-    }
-    
-    init(inquiryUseCase: InquiryUseCase, reportRestaurantUseCase: ReportRestaurantUseCase) {
-        self.inquiryUseCase = inquiryUseCase
-        self.reportRestaurantUseCase = reportRestaurantUseCase
+    init(inquiryUseCase: InquiryUseCase? = nil, reportRestaurantUseCase: ReportRestaurantUseCase? = nil) {
+        self.inquiryUseCase = DIContainer.shared.resolve(InquiryUseCase.self)
+        self.reportRestaurantUseCase = DIContainer.shared.resolve(ReportRestaurantUseCase.self)
         
         self.isNotificationsEnabled = UserDefaults.standard.bool(forKey: "isNotificationsEnabled")
         
         binding()
+    }
+    
+    // 앱 버전 가져오기
+    var appVersion: String {
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown"
     }
     
     private func binding() {

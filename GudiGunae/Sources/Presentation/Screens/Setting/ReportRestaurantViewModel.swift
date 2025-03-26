@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
-import Domain
+
 import Core
+import DI
+import Domain
+
 
 class ReportRestaurantViewModel: ObservableObject {
     @Published var title: String = ""
@@ -15,8 +18,8 @@ class ReportRestaurantViewModel: ObservableObject {
     
     private var reportRestaurantUseCase: ReportRestaurantUseCase
     
-    init(reportRestaurantUseCase: ReportRestaurantUseCase) {
-        self.reportRestaurantUseCase = reportRestaurantUseCase
+    init(reportRestaurantUseCase: ReportRestaurantUseCase? = nil) {
+        self.reportRestaurantUseCase = reportRestaurantUseCase ?? DIContainer.shared.resolve(ReportRestaurantUseCase.self)
     }
     
     func submitButtonTapped() async {

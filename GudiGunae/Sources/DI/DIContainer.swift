@@ -15,7 +15,7 @@ public protocol DIContainerProtocol {
 
 /// 의존성 주입 컨테이너 클래스
 /// 앱 전체의 의존성을 관리하고 필요한 객체들을 생성하여 제공합니다.
-final class DIContainer: DIContainerProtocol {
+public final class DIContainer: DIContainerProtocol {
     public static let shared = DIContainer()
     
     private var dependencies: [String: Any] = [:]
@@ -23,7 +23,7 @@ final class DIContainer: DIContainerProtocol {
     
     private let supabaseService: SupabaseService
     
-    init(supabaseService: SupabaseService = .shared) {
+    public init(supabaseService: SupabaseService = .shared) {
         self.supabaseService = supabaseService
     }
     

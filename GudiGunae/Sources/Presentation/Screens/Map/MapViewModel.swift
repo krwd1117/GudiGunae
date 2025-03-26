@@ -7,8 +7,9 @@
 
 import Foundation
 
-import Domain
 import Core
+import DI
+import Domain
 
 class MapViewModel: ObservableObject {
     @Published var restaurants: [Restaurant] = []
@@ -17,9 +18,9 @@ class MapViewModel: ObservableObject {
     
     private let useCase: FetchRestaurantUseCase
     
-    init(useCase: FetchRestaurantUseCase) {
-        Logger.d("init MapViewModel")
-        self.useCase = useCase
+    init(useCase: FetchRestaurantUseCase? = nil) {
+        self.useCase = useCase ?? DIContainer.shared.resolve(FetchRestaurantUseCase.self)
+        
         Task {
             await fetchRestaurants()
         }

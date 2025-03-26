@@ -22,8 +22,7 @@ public class LocationService: NSObject, ObservableObject {
         authorizationStatus = locationManager.authorizationStatus
         
         // 이미 권한이 있다면 위치 업데이트 시작
-        if locationManager.authorizationStatus == .authorizedWhenInUse ||
-           locationManager.authorizationStatus == .authorizedAlways {
+        if locationManager.authorizationStatus == .authorizedWhenInUse || locationManager.authorizationStatus == .authorizedAlways {
             startUpdatingLocation()
         }
     }
@@ -48,8 +47,7 @@ extension LocationService: CLLocationManagerDelegate {
         Logger.d("위치 권한 상태 변경: \(manager.authorizationStatus.rawValue)")
         
         // 권한이 승인되면 위치 업데이트 시작
-        if manager.authorizationStatus == .authorizedWhenInUse ||
-           manager.authorizationStatus == .authorizedAlways {
+        if manager.authorizationStatus == .authorizedWhenInUse || manager.authorizationStatus == .authorizedAlways {
             startUpdatingLocation()
         }
     }

@@ -10,11 +10,9 @@ import Domain
 
 struct AppInquiryView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: AppInquiryViewModel
+    @StateObject var viewModel: AppInquiryViewModel = AppInquiryViewModel()
     
-    init(inquiryUseCase: InquiryUseCase) {
-        _viewModel = StateObject(wrappedValue: AppInquiryViewModel(inquiryUseCase: inquiryUseCase))
-    }
+    init() {}
     
     var body: some View {
         VStack(spacing: 16) {

@@ -75,7 +75,8 @@ let project = Project(
                 .target(name: "Data"),
                 .target(name: "Presentation"),
                 .target(name: "Domain"),
-                .target(name: "Core")
+                .target(name: "Core"),
+                .target(name: "DI"),
             ],
             settings: .settings(
                 configurations: [
@@ -121,9 +122,10 @@ let project = Project(
             infoPlist: .default,
             sources: ["GudiGunae/Sources/Presentation/**"],
             dependencies: [
-                 .package(product: "Kingfisher"),
+                .package(product: "Kingfisher"),
                 .target(name: "Domain"),
                 .target(name: "Core"),
+                .target(name: "DI"),
             ]
         ),
         .target(
@@ -135,6 +137,19 @@ let project = Project(
             infoPlist: .default,
             sources: ["GudiGunae/Sources/Core/**"],
             dependencies: []
+        ),
+        .target(
+            name: "DI",
+            destinations: [.iPhone],
+            product: .framework,
+            bundleId: "com.krwd.GudiGunae.di",
+            deploymentTargets: .iOS("16.0"),
+            infoPlist: .default,
+            sources: ["GudiGunae/Sources/DI/**"],
+            dependencies: [
+                .target(name: "Data"),
+                .target(name: "Domain")
+            ]
         ),
         .target(
             name: "GudiGunaeTests",

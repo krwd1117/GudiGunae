@@ -10,11 +10,7 @@ import Domain
 
 struct ReportRestaurantView: View {
     @Environment(\.dismiss) private var dismiss
-    @StateObject var viewModel: ReportRestaurantViewModel
-    
-    init(reportRestaurantUseCase: ReportRestaurantUseCase) {
-        _viewModel = StateObject(wrappedValue: ReportRestaurantViewModel(reportRestaurantUseCase: reportRestaurantUseCase))
-    }
+    @StateObject var viewModel: ReportRestaurantViewModel = ReportRestaurantViewModel()
     
     var body: some View {
         VStack(spacing: 16) {
