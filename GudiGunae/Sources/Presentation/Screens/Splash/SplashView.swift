@@ -16,14 +16,18 @@ public struct SplashView: View {
     }
     
     public var body: some View {
-        VStack {
-            Text("구로디지털단지")
-            Text("구내식당")
+        ZStack {
+            Color.init("SplashScreenColor")
+            Image("SplashScreen")
         }
-        .fontWeight(.bold)
-        .font(.system(size: 32))
+        .ignoresSafeArea()
         .onChange(of: viewModel.isInitialized) { newValue in
             isInitialized = newValue
         }
     }
+}
+
+#Preview {
+    @State var isInitialized: Bool = false
+    SplashView(isInitialized: $isInitialized)
 }
