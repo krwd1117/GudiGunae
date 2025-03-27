@@ -23,7 +23,9 @@ public class RestaurantRepositoryImpl: RestaurantRepository {
             .select()
             .execute()
             .value
+        
         Logger.i(restaurants)
+        
         return restaurants
     }
 }

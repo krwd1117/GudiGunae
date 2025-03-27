@@ -35,6 +35,13 @@ struct MapView: View {
                 }
             }
         }
+        .task {
+            await withTaskCancellationHandler {
+                await viewModel.fetchRestaurants()
+            } onCancel: {
+                Logger.d("레스토랑 목록 불러오기 취소 됨")
+            }
+        }
         .fullScreenCover(isPresented: $showDetailImage) {
             if let imageURL = viewModel.selectedRestaurant?.imageURL {
                 let viewModel = DetailImageViewModel(imageURL: imageURL)

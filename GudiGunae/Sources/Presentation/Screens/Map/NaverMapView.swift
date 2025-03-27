@@ -12,27 +12,9 @@ import Foundation
 import SwiftUI
 import NMapsMap
 
-
 struct NaverMapView: UIViewRepresentable {
     @ObservedObject var coordinator: MapTabCoordinator
     @ObservedObject var viewModel: MapViewModel
-    
-    // 마커 관리를 위한 클래스
-    private class MarkerManager {
-        var markers: [NMFMarker] = []
-        
-        func removeAll() {
-            markers.forEach { $0.mapView = nil }
-            markers.removeAll()
-        }
-        
-        func addMarker(_ marker: NMFMarker) {
-            markers.append(marker)
-        }
-    }
-    
-    // 마커 매니저 인스턴스
-    private let markerManager = MarkerManager()
     
     func makeUIView(context: Context) -> NMFNaverMapView {
         let mapView: NMFNaverMapView = NMFNaverMapView()
@@ -57,16 +39,27 @@ struct NaverMapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: NMFNaverMapView, context: Context) {
-        // 기존 마커들을 모두 제거
-        markerManager.removeAll()
+        // 지도에 마커 그림
+        drawMakers(uiView: uiView)
         
+        // 선택된 레스토랑이 있을 때 카메라 이동
+        moveCameraToSelectedRestaurant(uiView: uiView)
+    }
+    
+    /// 지도에 마커를 그림
+    private func drawMakers(uiView: NMFNaverMapView) {
         // 새로운 마커 생성 및 추가
         for restaurant in viewModel.filteredRestaurants {
             let marker = NMFMarker()
             marker.position = NMGLatLng(lat: restaurant.latitude, lng: restaurant.longitude)
             marker.captionText = restaurant.name
-            marker.userInfo = ["restaurant": restaurant]
+            marker.userInfo["restaurant"] = restaurant
             
+            // 무채색 아이콘(검정색)으로 설정
+            // 이렇게 하지않고 tintColor만 수정하면 색상이 겹쳐보임
+            marker.iconImage = NMF_MARKER_IMAGE_BLACK
+            
+            // 마커를 눌렀을 때
             marker.touchHandler = { [weak viewModel] (overlay: NMFOverlay) -> Bool in
                 if let restaurant = marker.userInfo["restaurant"] as? Restaurant {
                     withAnimation {
@@ -76,11 +69,20 @@ struct NaverMapView: UIViewRepresentable {
                 return true
             }
             
+            if let selectedRestaurant = viewModel.selectedRestaurant,
+               let currentRestaurant = marker.userInfo["restaurant"] as? Restaurant,
+               currentRestaurant == selectedRestaurant {
+                marker.iconImage = NMF_MARKER_IMAGE_RED
+            } else {
+                marker.iconImage = NMF_MARKER_IMAGE_GREEN
+            }
+            
             marker.mapView = uiView.mapView
-            markerManager.addMarker(marker)
         }
-        
-        // 선택된 레스토랑이 있을 때 카메라 이동
+    }
+    
+    /// 선택한 식당의 위치로 카메라를 이동
+    private func moveCameraToSelectedRestaurant(uiView: NMFNaverMapView) {
         if let center = viewModel.centerLocation {
             Logger.d("카메라 이동 시도: lat: \(center.latitude), lng: \(center.longitude)")
             let location = NMGLatLng(lat: center.latitude, lng: center.longitude)

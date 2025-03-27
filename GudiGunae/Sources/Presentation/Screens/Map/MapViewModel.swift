@@ -20,10 +20,6 @@ class MapViewModel: ObservableObject {
     
     init(useCase: FetchRestaurantUseCase? = nil) {
         self.useCase = useCase ?? DIContainer.shared.resolve(FetchRestaurantUseCase.self)
-        
-        Task {
-            await fetchRestaurants()
-        }
     }
     
     @MainActor
@@ -32,7 +28,7 @@ class MapViewModel: ObservableObject {
             let restaurants = try await useCase.execute()
             self.restaurants = restaurants
         } catch {
-            print("Error: \(error)")
+            Logger.d(error)
         }
     }
     
