@@ -51,6 +51,8 @@ struct SettingView: View {
                 Text("버전 \(viewModel.appVersion)")
                     .font(.footnote)
                     .padding()
+                
+                BannerAdContainerView(unitID: .모아보기_상단_배너)
             }
             .navigationDestination(for: SettingTabCoordinator.Route.self) { route in
                 switch route {

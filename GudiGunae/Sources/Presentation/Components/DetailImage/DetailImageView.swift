@@ -17,10 +17,13 @@ struct DetailImageView: View {
         ZStack {
             Color.white.ignoresSafeArea()
             
-            KFImage(URL(string: viewModel.imageURL))
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VStack {
+                KFImage(URL(string: viewModel.imageURL))
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                BannerAdContainerView(unitID: .메뉴_상세보기_하단_배너)
+            }
         }
         .gesture(
             TapGesture()

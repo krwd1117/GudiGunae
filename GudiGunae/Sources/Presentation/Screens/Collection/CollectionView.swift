@@ -38,7 +38,9 @@ struct CollectionView: View {
                     .ignoresSafeArea()
                 
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: Layout.gridSpacing) {
+                    BannerAdContainerView(unitID: .모아보기_상단_배너)
+                    
+                    LazyVGrid(columns: columns, spacing: Layout.gridSpacing) {     
                         ForEach(viewModel.filteredRestaurants) { restaurant in
                             CollectionCellView(
                                 mapViewModel: mapViewModel,
