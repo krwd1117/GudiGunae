@@ -22,7 +22,6 @@ struct DetailImageView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                BannerAdContainerView(unitID: .메뉴_상세보기_하단_배너)
             }
         }
         .gesture(
